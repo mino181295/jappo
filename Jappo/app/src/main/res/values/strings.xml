@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Jappo</string>
+
+    <string name="name">Nome</string>
+    <string name="email">E-Mail</string>
+    <string name="password">Password</string>
+
+    <string name="login">Accedi</string>
+    <string name="register">Registrati</string>
+    <string name="create_account">Non hai un account? Clicca qui.</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
 </resources>
