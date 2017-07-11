@@ -1,22 +1,31 @@
 package it.unibo.matteo.jappo;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static android.os.Build.VERSION_CODES.M;
+
 public class LoginActivity extends AppCompatActivity {
 
-    Fragment loginFragment;
-    Fragment registerFragment;
+    LoginFragment loginFragment;
+    RegisterFragment registerFragment;
     Fragment currentFragment;
 
     TextView mRegisterLabel;
@@ -56,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         mMainButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loginFragment.attemptLogin();
             }
         });
     }
@@ -79,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         transaction.replace(R.id.input_container, registerFragment).commit();
     }
 
+
     @Override
     public void onBackPressed() {
         if (currentFragment instanceof LoginFragment){
@@ -94,4 +105,6 @@ public class LoginActivity extends AppCompatActivity {
             mRegisterLabel.setVisibility(View.VISIBLE);
         }
     }
+
+
 }
