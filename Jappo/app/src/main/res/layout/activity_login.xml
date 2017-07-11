@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/background_login"
-    tools:context="it.unibo.matteo.jappo.LoginActivity">
+    tools:context="it.unibo.matteo.jappo.Activity.LoginActivity">
 
     <FrameLayout
         android:layout_weight="4"

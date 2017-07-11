@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Jappo</string>
 
-    <string name="name">Nome Completo</string>
+    <string name="name">Nome e cognome</string>
     <string name="email">E-Mail</string>
     <string name="password">Password</string>
 
@@ -14,4 +14,5 @@
     <string name="error_field_required">Campo richiesto</string>
     <string name="error_invalid_email">Mail non valida</string>
     <string name="error_incorrect_password">Password sbagliata</string>
+    <string name="error_invalid_name">Nome sbagliato</string>
 </resources>

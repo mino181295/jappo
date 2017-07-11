@@ -16,7 +16,7 @@
         <EditText
             android:hint="@string/email"
             android:textColorHint="@color/lightbrown"
-            android:id="@+id/mail_text"
+            android:id="@+id/login_mail_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -26,10 +26,10 @@
         <EditText
             android:hint="@string/password"
             android:textColorHint="@color/lightbrown"
-            android:id="@+id/password_text"
+            android:id="@+id/login_password_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/mail_text"
+            android:layout_below="@id/login_mail_text"
             android:inputType="textPassword" />
 </RelativeLayout>
