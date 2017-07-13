@@ -30,6 +30,8 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback{
 
     View mView;
 
+    public static ArrayList<String> restourants;
+
     public NewOrderFragment() {
     }
 
@@ -38,9 +40,9 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback{
         super.onCreate(savedInstanceState);
     }
 
-    public static NewOrderFragment newInstance(ArrayList<String> restaurants) {
+    public static NewOrderFragment newInstance(ArrayList<String> rest) {
         NewOrderFragment fragment = new NewOrderFragment();
-        restaurants = new ArrayList<>(restaurants);
+        restourants = new ArrayList<>(rest);
         return fragment;
     }
 

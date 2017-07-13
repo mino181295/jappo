@@ -23,6 +23,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import it.unibo.matteo.jappo.Fragment.CompletedFragment;
+import it.unibo.matteo.jappo.Fragment.FavoritesFragment;
 import it.unibo.matteo.jappo.Fragment.NewOrderFragment;
 import it.unibo.matteo.jappo.R;
 
@@ -125,10 +127,9 @@ public class MainActivity extends AppCompatActivity {
             super(fm);
 
             mainViewFragments = new Fragment[3];
-            mainViewFragments[0] = PlaceholderFragment.newInstance(0);
+            mainViewFragments[0] = FavoritesFragment.newInstance(new ArrayList<String>());
             mainViewFragments[1] = NewOrderFragment.newInstance(new ArrayList<String>());
-            //mainViewFragments[1] = PlaceholderFragment.newInstance(2);
-            mainViewFragments[2] = PlaceholderFragment.newInstance(2);
+            mainViewFragments[2] = CompletedFragment.newInstance();
         }
 
         @Override

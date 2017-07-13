@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/item_image"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/test"
+        civ_border_color="@color/black"
+        civ_border_width="1dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sashimi Misto"
+        android:textColor="@color/black"
+
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/item_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="22"
+        android:layout_alignParentBottom="true"
+        android:textSize="8sp"
+        android:layout_alignStart="@+id/item_name"/>
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="?android:selectableItemBackground"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@android:drawable/ic_menu_delete" />
+</RelativeLayout>

@@ -12,17 +12,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="8dp"
         android:text="Nuovo ordine"
         android:textAllCaps="true"
         android:textColor="@color/black"
-        android:textSize="40dp" />
+        android:textSize="28sp" />
 
     <Spinner
         android:id="@+id/restaurant_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_below="@+id/new_order_title"
         android:layout_alignEnd="@+id/new_order_title"
         android:layout_toEndOf="@+id/restourant_label" />
@@ -38,14 +38,14 @@
         android:layout_alignTop="@+id/restaurant_spinner" />
 
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/logout_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/rounded_button"
         android:text="Inizia ordine"
         android:textColor="@color/white"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/restaurant_spinner"
         android:layout_alignStart="@+id/restourant_label" />
@@ -55,6 +55,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/restaurant_spinner"
+        android:layout_above="@id/logout_button"
+        android:layout_marginBottom="8dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp" />
 
