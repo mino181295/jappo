@@ -45,8 +45,6 @@ public class LoginActivity extends AppCompatActivity {
                 mMainButton.setText(R.string.register);
                 mRegisterLabel.setVisibility(View.GONE);
                 reduceBox();
-
-
                 setupRegisterFragment();
             }
         });

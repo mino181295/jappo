@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="it.unibo.matteo.jappo.Fragment.NewOrderFragment"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/new_order_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:text="Nuovo ordine"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="40dp" />
+
+    <Spinner
+        android:id="@+id/restaurant_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_below="@+id/new_order_title"
+        android:layout_alignEnd="@+id/new_order_title"
+        android:layout_toEndOf="@+id/restourant_label" />
+
+    <TextView
+        android:id="@+id/restourant_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|end"
+        android:text="Ristoranti: "
+        android:layout_alignBottom="@+id/restaurant_spinner"
+        android:layout_alignStart="@+id/new_order_title"
+        android:layout_alignTop="@+id/restaurant_spinner" />
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_button"
+        android:text="Inizia ordine"
+        android:textColor="@color/white"
+        android:layout_marginBottom="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/restaurant_spinner"
+        android:layout_alignStart="@+id/restourant_label" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/restaurant_spinner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp" />
+
+
+</RelativeLayout>

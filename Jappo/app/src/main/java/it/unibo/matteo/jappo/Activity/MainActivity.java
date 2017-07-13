@@ -21,18 +21,14 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import it.unibo.matteo.jappo.Fragment.NewOrderFragment;
 import it.unibo.matteo.jappo.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
@@ -76,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        mViewPager.setCurrentItem(1);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,19 +89,12 @@ public class MainActivity extends AppCompatActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
+
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public PlaceholderFragment() {
         }
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
@@ -128,31 +119,34 @@ public class MainActivity extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+        Fragment [] mainViewFragments;
+
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+
+            mainViewFragments = new Fragment[3];
+            mainViewFragments[0] = PlaceholderFragment.newInstance(0);
+            mainViewFragments[1] = NewOrderFragment.newInstance(new ArrayList<String>());
+            //mainViewFragments[1] = PlaceholderFragment.newInstance(2);
+            mainViewFragments[2] = PlaceholderFragment.newInstance(2);
         }
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            return mainViewFragments[position];
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return mainViewFragments.length;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Preferiti";
-                case 1:
-                    return "Ordine";
-                case 2:
-                    return "Arrivati";
+            switch (position){
+                case 0: return "Preferiti";
+                case 1: return "Ordinati";
+                case 2: return "Arrivati";
             }
             return null;
         }

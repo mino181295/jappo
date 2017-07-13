@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
-        app:src="@drawable/plus_sign" />
+        android:src="@mipmap/plus_sign"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"

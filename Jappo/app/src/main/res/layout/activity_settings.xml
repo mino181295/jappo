@@ -65,5 +65,83 @@
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="Logout"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/test"
+            app:civ_border_color="@color/black"
+            app:civ_border_width="3dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/settings_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/profile_image"
+            android:layout_marginTop="32dp"
+            android:text="Matteo Minardi"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/option1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Privacy"
+            android:padding="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_below="@+id/settings_name"
+            android:layout_alignParentStart="true"
+            android:background="@color/background_color"
+            android:paddingRight="24dp"/>
+
+        <TextView
+            android:id="@+id/option2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/option1"
+            android:layout_alignParentStart="true"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:text="Colori"
+            android:paddingRight="24dp"/>
+        <TextView
+            android:id="@+id/option3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:text="Lingua"
+            android:layout_below="@+id/option2"
+            android:layout_alignParentStart="true"
+            android:background="@color/background_color"
+            android:paddingRight="24dp"/>
+
+    </RelativeLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>

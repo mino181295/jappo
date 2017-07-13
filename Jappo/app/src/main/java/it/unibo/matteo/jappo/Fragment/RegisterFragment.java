@@ -49,11 +49,6 @@ public class RegisterFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -65,16 +60,6 @@ public class RegisterFragment extends Fragment {
         mProgressView = mainView.findViewById(R.id.register_progress);
 
         return mainView;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
     private void showProgress(final boolean show) {
