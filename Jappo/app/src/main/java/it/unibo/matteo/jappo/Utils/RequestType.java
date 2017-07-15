@@ -3,7 +3,7 @@ package it.unibo.matteo.jappo.Utils;
 public enum RequestType {
 
 
-    LOGIN("LOGIN"), REGISTER("REGISTER");
+    LOGIN("LOGIN"), REGISTER("REGISTER"), GET_USER("GET_USER");
 
     public final String value;
 

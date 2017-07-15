@@ -103,8 +103,4 @@ public class LoginActivity extends AppCompatActivity {
             mRegisterLabel.setVisibility(View.VISIBLE);
         }
     }
-
-
-
-
 }

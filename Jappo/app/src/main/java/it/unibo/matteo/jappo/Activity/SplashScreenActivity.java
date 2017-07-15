@@ -1,8 +1,6 @@
 package it.unibo.matteo.jappo.Activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
@@ -13,17 +11,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import it.unibo.matteo.jappo.R;
+import it.unibo.matteo.jappo.Utils.SharedPreferencesManager;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
     ImageView imageView;
     ProgressBar progressBar;
 
-    public static final String userName = "NAME";
-    public static final String isLogged = "LOGGED";
-    public static final String userEmail = "EMAIL";
-
-    SharedPreferences userPreferences;
+    SharedPreferencesManager spManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +26,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        spManager = new SharedPreferencesManager("Default", getApplicationContext());
         hideActionBar();
 
         imageView = (ImageView) findViewById(R.id.image_logo);
@@ -53,13 +49,13 @@ public class SplashScreenActivity extends AppCompatActivity {
                 Runnable runClose = new Runnable() {
                     @Override
                     public void run() {
-                        boolean isLoggedIn = isLoggedIn();
-                        if (isLoggedIn) {
-                            //TODO: Start main activity with Bundle the info
-                        } else {
-                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-                            finish();
-                        }
+                            if (spManager.isLoggedIn()){
+                                startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                                finish();
+                            } else {
+                                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                                finish();
+                            }
                     }
                 };
                 activityController.post(runClose);
@@ -70,26 +66,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         animation.setAnimationListener(fadeInListener);
 
         return animation;
-    }
-
-    private boolean checkSharedPreferences(){
-        userPreferences = getPreferences(Context.MODE_PRIVATE);
-        if (userPreferences.contains(isLogged) && userPreferences.contains(userName)
-                && userPreferences.contains(userEmail)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private boolean isLoggedIn(){
-        if (checkSharedPreferences()){
-            boolean isLoggedIn = false;
-            userPreferences.getBoolean(isLogged, isLoggedIn);
-            return isLoggedIn;
-        } else {
-            return false;
-        }
     }
 
     @Override

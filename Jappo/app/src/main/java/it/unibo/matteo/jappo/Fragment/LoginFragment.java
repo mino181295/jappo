@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,14 +17,18 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 import it.unibo.matteo.jappo.Activity.MainActivity;
+import it.unibo.matteo.jappo.Model.User;
 import it.unibo.matteo.jappo.R;
 import it.unibo.matteo.jappo.Utils.HTTPHelper;
 import it.unibo.matteo.jappo.Utils.JSONHelper;
 import it.unibo.matteo.jappo.Utils.RequestType;
+import it.unibo.matteo.jappo.Utils.SharedPreferencesManager;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 public class LoginFragment extends Fragment {
+
+    private SharedPreferencesManager spManager;
 
     private UserLoginTask mAuthTask = null;
     private static String startingMail;
@@ -40,6 +45,12 @@ public class LoginFragment extends Fragment {
         LoginFragment fragment = new LoginFragment();
         startingMail = mail;
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        spManager = new SharedPreferencesManager("Default", getContext());
     }
 
     @Override
@@ -140,13 +151,23 @@ public class LoginFragment extends Fragment {
         protected Boolean doInBackground(Void... params) {
             String response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, loginParams);
             boolean isCorrect = JSONHelper.parseResponse(response, requestType);
+
+            if (isCorrect) {
+                loginParams = new HashMap<>();
+                loginParams.put(RequestType.getDefault(), RequestType.GET_USER.getValue());
+                loginParams.put("email", mEmail);
+                loginParams.put("password", mPassword);
+
+                response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, loginParams);
+                User loggedUser = JSONHelper.parseUser(response);
+                spManager.setLoggedUser(loggedUser);
+            }
             return isCorrect;
         }
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
             Activity currentActivity = getActivity();
 
             if (success) {

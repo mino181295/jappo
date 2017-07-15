@@ -12,12 +12,13 @@
     <ImageView
         android:id="@+id/image_logo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:src="@drawable/logo_splash_jappo"
         android:layout_weight="1"/>
+
     <ProgressBar
         android:id="@+id/progress_bar"
-        style="?android:attr/indeterminateProgressStyle"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>
