@@ -6,11 +6,12 @@
     android:paddingBottom="4dp">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/item_image"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:src="@drawable/test"
+        android:layout_marginStart="16dp"
         civ_border_color="@color/black"
-        civ_border_width="1dp"
+        civ_border_width="2dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true" />
 
@@ -21,25 +22,36 @@
         android:text="Sashimi Misto"
         android:textColor="@color/black"
 
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="12sp"/>
+        android:textSize="18sp"
+        android:layout_marginStart="16dp"
+        android:layout_alignTop="@+id/item_image"
+        android:layout_toEndOf="@+id/item_image" />
 
     <TextView
         android:id="@+id/item_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="22"
-        android:layout_alignParentBottom="true"
-        android:textSize="8sp"
-        android:layout_alignStart="@+id/item_name"/>
+        android:textSize="16sp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/item_delete"
+        android:layout_marginEnd="19dp" />
 
     <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:id="@+id/item_delete"
+        android:layout_marginEnd="16dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:background="?android:selectableItemBackground"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         app:srcCompat="@android:drawable/ic_menu_delete" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/item_image"
+        android:layout_alignStart="@+id/item_name"
+        android:text="Fuji" />
 </RelativeLayout>

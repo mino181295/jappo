@@ -2,10 +2,6 @@ package it.unibo.matteo.jappo.Model;
 
 import com.google.gson.Gson;
 
-/**
- * Created by matteo.minardi on 14/07/2017.
- */
-
 public class Item {
 
     private String name;
@@ -28,4 +24,19 @@ public class Item {
         return new Gson().fromJson(in, Item.class);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
 }

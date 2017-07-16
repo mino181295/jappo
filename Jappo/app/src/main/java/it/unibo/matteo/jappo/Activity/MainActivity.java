@@ -26,12 +26,14 @@ import java.util.ArrayList;
 import it.unibo.matteo.jappo.Fragment.CompletedFragment;
 import it.unibo.matteo.jappo.Fragment.FavoritesFragment;
 import it.unibo.matteo.jappo.Fragment.NewOrderFragment;
+import it.unibo.matteo.jappo.Model.DataModel;
 import it.unibo.matteo.jappo.R;
 
 public class MainActivity extends AppCompatActivity {
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    DataModel dm;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dm = DataModel.load();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -85,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -95,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             super(fm);
 
             mainViewFragments = new Fragment[3];
-            mainViewFragments[0] = FavoritesFragment.newInstance(new ArrayList<String>());
+            mainViewFragments[0] = FavoritesFragment.newInstance(dm.getLoggedUser().getFavorites());
             mainViewFragments[1] = NewOrderFragment.newInstance(new ArrayList<String>());
             mainViewFragments[2] = CompletedFragment.newInstance();
         }

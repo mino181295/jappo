@@ -1,6 +1,8 @@
 package it.unibo.matteo.jappo.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
@@ -10,8 +12,17 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import java.util.HashMap;
+
+import it.unibo.matteo.jappo.Model.DataModel;
+import it.unibo.matteo.jappo.Model.User;
 import it.unibo.matteo.jappo.R;
+import it.unibo.matteo.jappo.Utils.HTTPHelper;
+import it.unibo.matteo.jappo.Utils.JSONHelper;
+import it.unibo.matteo.jappo.Utils.RequestType;
 import it.unibo.matteo.jappo.Utils.SharedPreferencesManager;
+
+import static it.unibo.matteo.jappo.R.string.email;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -45,26 +56,12 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void onAnimationStart(Animation animation) {}
             @Override
             public void onAnimationEnd(Animation animation) {
-                Handler activityController = new Handler();
-                Runnable runClose = new Runnable() {
-                    @Override
-                    public void run() {
-                            if (spManager.isLoggedIn()){
-                                startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
-                                finish();
-                            } else {
-                                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-                                finish();
-                            }
-                    }
-                };
-                activityController.post(runClose);
+                new LoadDataTask().execute((Void) null);
             }
             @Override
             public void onAnimationRepeat(Animation animation) {}
         };
         animation.setAnimationListener(fadeInListener);
-
         return animation;
     }
 
@@ -73,5 +70,31 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void hideActionBar(){
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+    }
+
+    public class LoadDataTask extends AsyncTask<Void, Void, Boolean>{
+
+        LoadDataTask() {}
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            boolean result = spManager.isLoggedIn();
+            if (result) {
+                DataModel dm = new DataModel(getApplicationContext());
+                dm.save();
+            }
+            return result;
+        }
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success){
+                startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                finish();
+            } else {
+                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                finish();
+            }
+        }
+
     }
 }

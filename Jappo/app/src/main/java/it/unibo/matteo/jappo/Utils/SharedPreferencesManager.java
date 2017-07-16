@@ -3,6 +3,7 @@ package it.unibo.matteo.jappo.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import it.unibo.matteo.jappo.Model.DataModel;
 import it.unibo.matteo.jappo.Model.User;
 
 public class SharedPreferencesManager {
@@ -12,6 +13,7 @@ public class SharedPreferencesManager {
     private SharedPreferences mSP;
     private SharedPreferences.Editor mEditor;
 
+    public static final String DATA_MODEL = "DATA_MODEL";
     public static final String IS_LOGGED = "LOGGED";
     public static final String USER = "USER";
 
@@ -47,6 +49,20 @@ public class SharedPreferencesManager {
     public void logoutLoggedUser(){
         mEditor.remove(USER);
         mEditor.putBoolean(IS_LOGGED, false);
+        mEditor.apply();
+    }
+
+    public DataModel loadDataModel(){
+        if (mSP.contains(DATA_MODEL)){
+            String dataModel = null;
+            dataModel = mSP.getString(DATA_MODEL, dataModel);
+            return DataModel.fromJson(dataModel);
+        } else return null;
+    }
+
+    public void writeDataModel(DataModel dm){
+        String stringDataModel = dm.getJson();
+        mEditor.putString(DATA_MODEL, stringDataModel);
         mEditor.apply();
     }
 }

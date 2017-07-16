@@ -17,6 +17,7 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 import it.unibo.matteo.jappo.Activity.MainActivity;
+import it.unibo.matteo.jappo.Model.DataModel;
 import it.unibo.matteo.jappo.Model.User;
 import it.unibo.matteo.jappo.R;
 import it.unibo.matteo.jappo.Utils.HTTPHelper;
@@ -161,6 +162,10 @@ public class LoginFragment extends Fragment {
                 response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, loginParams);
                 User loggedUser = JSONHelper.parseUser(response);
                 spManager.setLoggedUser(loggedUser);
+
+                DataModel dm = new DataModel(getContext());
+                dm.save();
+
             }
             return isCorrect;
         }

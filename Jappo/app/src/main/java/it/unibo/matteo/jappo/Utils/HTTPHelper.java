@@ -1,6 +1,7 @@
 package it.unibo.matteo.jappo.Utils;
 
 import android.text.StaticLayout;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -36,6 +37,7 @@ public class HTTPHelper {
 
             OutputStream output = httpUrlConnection.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output, "UTF-8"));
+            Log.d("Param", getPostDataString(params));
             writer.write(getPostDataString(params));
             writer.flush();
             writer.close();
