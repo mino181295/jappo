@@ -4,9 +4,6 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-/**
- * Created by matteo.minardi on 14/07/2017.
- */
 
 public class User {
 

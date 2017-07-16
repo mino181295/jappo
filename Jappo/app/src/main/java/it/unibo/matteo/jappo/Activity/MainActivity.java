@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
             mainViewFragments = new Fragment[3];
             mainViewFragments[0] = FavoritesFragment.newInstance(dm.getLoggedUser().getFavorites());
-            mainViewFragments[1] = NewOrderFragment.newInstance(new ArrayList<String>());
+            mainViewFragments[1] = NewOrderFragment.newInstance(dm.getRestaurants());
             mainViewFragments[2] = CompletedFragment.newInstance();
         }
 

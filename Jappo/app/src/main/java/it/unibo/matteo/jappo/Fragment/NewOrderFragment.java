@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -18,6 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
+import it.unibo.matteo.jappo.Model.Restaurant;
 import it.unibo.matteo.jappo.R;
 
 import static android.os.Build.VERSION_CODES.M;
@@ -30,7 +33,7 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback{
 
     View mView;
 
-    public static ArrayList<String> restourants;
+    public static ArrayList<Restaurant> restourants;
 
     public NewOrderFragment() {
     }
@@ -40,18 +43,21 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback{
         super.onCreate(savedInstanceState);
     }
 
-    public static NewOrderFragment newInstance(ArrayList<String> rest) {
+    public static NewOrderFragment newInstance(ArrayList<Restaurant> rest) {
         NewOrderFragment fragment = new NewOrderFragment();
-        restourants = new ArrayList<>(rest);
+        restourants = rest;
         return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_new_order, container, false);
-        mView = v;
-        return v;
+        mView = inflater.inflate(R.layout.fragment_new_order, container, false);
+        Spinner mSpinner = (Spinner) mView.findViewById(R.id.restaurant_spinner);
+
+        //TODO Layout
+        //ArrayAdapter<String> restaurantAdapter = new ArrayAdapter<String>();
+        return mView;
     }
 
     @Override

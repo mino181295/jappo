@@ -12,6 +12,8 @@ import it.unibo.matteo.jappo.Utils.JSONHelper;
 import it.unibo.matteo.jappo.Utils.RequestType;
 import it.unibo.matteo.jappo.Utils.SharedPreferencesManager;
 
+import static it.unibo.matteo.jappo.Fragment.FavoritesFragment.favorites;
+
 public class DataModel {
 
     public static final String SP_NAME = "Default";
@@ -44,7 +46,7 @@ public class DataModel {
         loadOrder(user);
     }
 
-    private static void loadFavorites(User u){
+    private void loadFavorites(User u){
         HashMap<String, String> loadParams = new HashMap<>();
         loadParams.put(RequestType.getDefault(), RequestType.GET_FAV.getValue());
         loadParams.put("id", String.valueOf(u.getId()));
@@ -54,14 +56,23 @@ public class DataModel {
         u.setFavorites(favorites);
     }
 
-    private static void loadOrder(User u){
+    private void loadOrder(User u){
     }
 
-    private static void loadRestourants(){
+    private void loadRestourants(){
+        HashMap<String, String> loadParams = new HashMap<>();
+        loadParams.put(RequestType.getDefault(), RequestType.GET_REST.getValue());
+
+        String response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, loadParams);
+        availableRestaurants = JSONHelper.parseRestaurants(response);
     }
 
     public User getLoggedUser(){
         return user;
+    }
+
+    public ArrayList<Restaurant> getRestaurants(){
+        return this.availableRestaurants;
     }
 
     public static DataModel fromJson(String in){
