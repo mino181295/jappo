@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import it.unibo.matteo.jappo.Model.DataModel;
 import it.unibo.matteo.jappo.Model.User;
 import it.unibo.matteo.jappo.R;
 import it.unibo.matteo.jappo.Utils.SharedPreferencesManager;
@@ -79,7 +80,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void clearPreferences(){
-        spManager.logoutLoggedUser();
+        DataModel dm = new DataModel(getApplicationContext());
+        dm.remove();
     }
 
     public void performLogout(){

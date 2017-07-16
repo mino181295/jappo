@@ -160,12 +160,12 @@ public class LoginFragment extends Fragment {
                 loginParams.put("password", mPassword);
 
                 response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, loginParams);
-                User loggedUser = JSONHelper.parseUser(response);
-                spManager.setLoggedUser(loggedUser);
 
                 DataModel dm = new DataModel(getContext());
+                User loggedUser = JSONHelper.parseUser(response);
+                dm.login(loggedUser);
+                dm.load();
                 dm.save();
-
             }
             return isCorrect;
         }

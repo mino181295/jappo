@@ -18,26 +18,45 @@ public class DataModel {
 
     public static final String SP_NAME = "Default";
 
-    User user;
-    Order currentOrder;
-    ArrayList<Restaurant> availableRestaurants;
+    private User user;
+    private Order currentOrder;
+    private ArrayList<Restaurant> availableRestaurants;
 
     private static SharedPreferencesManager spManager;
 
     public DataModel(Context context){
         spManager = new SharedPreferencesManager(SP_NAME, context);
-        if (spManager.isLoggedIn()){
-            this.user = spManager.getLoggedUser();
-        }
-        loadData(this.user);
+
+        user = null;
+        currentOrder = null;
+        availableRestaurants = null;
     }
 
-    public static DataModel load(){
-        return spManager.loadDataModel();
+    public void load(){
+        if (spManager.isLoggedIn()){
+            user = spManager.getLoggedUser();
+            if (spManager.hasDataModel()) {
+                DataModel dm = spManager.loadDataModel();
+                user = dm.user;
+                currentOrder = dm.currentOrder;
+                availableRestaurants = dm.availableRestaurants;
+            } else {
+                loadData(user);
+            }
+        }
     }
 
     public void save(){
         spManager.writeDataModel(this);
+    }
+
+    public void remove(){
+        spManager.clearDataModel();
+    }
+
+    public void login(User u){
+        user = u;
+        spManager.setLoggedUser(user);
     }
 
     private void loadData(User user){
@@ -56,9 +75,6 @@ public class DataModel {
         u.setFavorites(favorites);
     }
 
-    private void loadOrder(User u){
-    }
-
     private void loadRestourants(){
         HashMap<String, String> loadParams = new HashMap<>();
         loadParams.put(RequestType.getDefault(), RequestType.GET_REST.getValue());
@@ -67,8 +83,15 @@ public class DataModel {
         availableRestaurants = JSONHelper.parseRestaurants(response);
     }
 
+    private void loadOrder(User u){
+    }
+
     public User getLoggedUser(){
         return user;
+    }
+
+    public boolean isLoggedIn(){
+        return spManager.isLoggedIn();
     }
 
     public ArrayList<Restaurant> getRestaurants(){

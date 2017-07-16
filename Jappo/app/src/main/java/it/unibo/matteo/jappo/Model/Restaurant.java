@@ -27,5 +27,20 @@ public class Restaurant {
         return new Gson().fromJson(in, Restaurant.class);
     }
 
+    @Override
+    public String toString() {
+        return this.name + ", " + this.city;
+    }
 
+    public LatLng getCoordinates() {
+        return coordinates;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
 }

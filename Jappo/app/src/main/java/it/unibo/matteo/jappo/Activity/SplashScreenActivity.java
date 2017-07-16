@@ -29,7 +29,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     ImageView imageView;
     ProgressBar progressBar;
 
-    SharedPreferencesManager spManager;
+    DataModel dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +37,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        spManager = new SharedPreferencesManager("Default", getApplicationContext());
         hideActionBar();
+
+        dm = new DataModel(getApplicationContext());
 
         imageView = (ImageView) findViewById(R.id.image_logo);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
@@ -78,12 +79,13 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            boolean result = spManager.isLoggedIn();
-            if (result) {
+            boolean logged = dm.isLoggedIn();
+            if (logged) {
                 DataModel dm = new DataModel(getApplicationContext());
+                dm.load();
                 dm.save();
             }
-            return result;
+            return logged;
         }
         @Override
         protected void onPostExecute(final Boolean success) {

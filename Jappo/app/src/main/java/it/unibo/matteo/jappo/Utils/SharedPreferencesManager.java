@@ -52,6 +52,10 @@ public class SharedPreferencesManager {
         mEditor.apply();
     }
 
+    public boolean hasDataModel(){
+        return mSP.contains(DATA_MODEL);
+    }
+
     public DataModel loadDataModel(){
         if (mSP.contains(DATA_MODEL)){
             String dataModel = null;
@@ -63,6 +67,11 @@ public class SharedPreferencesManager {
     public void writeDataModel(DataModel dm){
         String stringDataModel = dm.getJson();
         mEditor.putString(DATA_MODEL, stringDataModel);
+        mEditor.apply();
+    }
+
+    public void clearDataModel(){
+        mEditor.remove(DATA_MODEL);
         mEditor.apply();
     }
 }
