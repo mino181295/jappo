@@ -13,11 +13,11 @@
         android:layout_alignParentStart="true"
         android:gravity="center_horizontal|center_vertical"/>
     <ListView
-            android:layout_marginTop="8dp"
-            android:layout_below="@id/title_order"
-            android:id="@+id/order_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/title_order"
+        android:id="@+id/order_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <com.scalified.fab.ActionButton
         android:id="@+id/add_item_button"
@@ -33,8 +33,7 @@
         fab:image="@mipmap/plus_sign"
         fab:image_size="24dp"
         fab:show_animation="@anim/fab_roll_from_down"
-        fab:hide_animation="@anim/fab_roll_to_down"
-        />
+        fab:hide_animation="@anim/fab_roll_to_down"/>
 
     <com.scalified.fab.ActionButton
         android:id="@+id/close_order_button"
@@ -50,7 +49,6 @@
         fab:image="@mipmap/close_icon"
         fab:image_size="24dp"
         fab:show_animation="@anim/fab_roll_from_down"
-        fab:hide_animation="@anim/fab_roll_to_down"
-        />
+        fab:hide_animation="@anim/fab_roll_to_down"/>
 
 </RelativeLayout>

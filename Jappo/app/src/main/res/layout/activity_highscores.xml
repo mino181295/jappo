@@ -59,7 +59,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="2"
-                    android:gravity="left|center_vertical"
+                    android:gravity="start|center_vertical"
                     android:text="@string/action_highscores"
                     android:textColor="@color/white" />
             </LinearLayout>

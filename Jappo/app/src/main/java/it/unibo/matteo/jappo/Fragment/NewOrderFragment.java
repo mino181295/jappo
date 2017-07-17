@@ -33,14 +33,12 @@ import static it.unibo.matteo.jappo.R.id.map;
 public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap googleMap;
-    private MapView mapView;
     private Spinner mSpinner;
+    private View mView;
 
     private OnNewOrderInteractionListener mListener;
 
-    private View mView;
-
-    public static ArrayList<Restaurant> restourants;
+    private static ArrayList<Restaurant> restourants;
 
     public NewOrderFragment() {
     }
@@ -62,7 +60,7 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
         mView = inflater.inflate(R.layout.fragment_new_order, container, false);
         mSpinner = (Spinner) mView.findViewById(R.id.restaurant_spinner);
 
-        ArrayAdapter<Restaurant> restaurantAdapter = new ArrayAdapter<Restaurant>(getContext(), R.layout.resaturant_item,
+        ArrayAdapter<Restaurant> restaurantAdapter = new ArrayAdapter<>(getContext(), R.layout.resaturant_item,
                 R.id.restaurant_name_text, restourants);
         restaurantAdapter.setDropDownViewResource(R.layout.resaturant_item);
         mSpinner.setAdapter(restaurantAdapter);
@@ -97,7 +95,7 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mapView = (MapView) mView.findViewById(map);
+        MapView mapView = (MapView) mView.findViewById(map);
         if (mapView != null) {
             mapView.onCreate(null);
             mapView.onResume();

@@ -2,8 +2,6 @@ package it.unibo.matteo.jappo.Fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -11,62 +9,39 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.scalified.fab.ActionButton;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import de.hdodenhof.circleimageview.CircleImageView;
-import it.unibo.matteo.jappo.Activity.MainActivity;
-import it.unibo.matteo.jappo.Adapter.FavoritesAdapter;
 import it.unibo.matteo.jappo.Adapter.OrderAdapter;
-import it.unibo.matteo.jappo.Model.DataModel;
 import it.unibo.matteo.jappo.Model.Item;
 import it.unibo.matteo.jappo.Model.Order;
-import it.unibo.matteo.jappo.Model.Restaurant;
 import it.unibo.matteo.jappo.Model.Type;
 import it.unibo.matteo.jappo.R;
-
-import static android.R.attr.breadCrumbShortTitle;
-import static android.R.attr.order;
-import static android.R.string.cancel;
-import static android.content.ContentValues.TAG;
-import static android.os.Build.VERSION_CODES.M;
-import static it.unibo.matteo.jappo.Fragment.FavoritesFragment.favorites;
-import static it.unibo.matteo.jappo.Fragment.NewOrderFragment.restourants;
+import it.unibo.matteo.jappo.Utils.VibratorManager;
 
 public class OrderFragment extends Fragment {
 
-    View mView;
-    ActionButton closeButton;
-    ActionButton addItemButton;
+    private ActionButton closeButton;
+    private ActionButton addItemButton;
 
-    static Order order;
-    OrderAdapter orderAdapter;
-    static ArrayList<Item> orderedItems;
+    private static ArrayList<Item> orderedItems;
+    private OrderAdapter orderAdapter;
+    private static Order order;
 
     private OnOrderInteractionListener mListener;
 
-    public OrderFragment() {
-    }
+    public OrderFragment() {}
 
     public static OrderFragment newInstance(Order o) {
         OrderFragment fragment = new OrderFragment();
@@ -100,7 +75,7 @@ public class OrderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_order, container, false);
+        View mView = inflater.inflate(R.layout.fragment_order, container, false);
 
         closeButton = (ActionButton) mView.findViewById(R.id.close_order_button);
         closeButton.setOnClickListener(new View.OnClickListener() {
@@ -121,17 +96,11 @@ public class OrderFragment extends Fragment {
         orderAdapter = new OrderAdapter(getContext(), R.layout.order_item, orderedItems);
         orderList.setAdapter(orderAdapter);
 
-        orderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-        });
-
         orderList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                showDeleteDialog(i, orderAdapter);
+                VibratorManager.makeBuzz(getContext(), VibratorManager.SHORT);
+                showDeleteDialog(i);
                 return false;
             }
         });
@@ -206,29 +175,28 @@ public class OrderFragment extends Fragment {
         mNameView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //Suggestion of the item
                 String actualText = charSequence.toString().toLowerCase();
                 String[] wordsList = actualText.split(" ");
                 List<Type> typeList = Type.getList();
                 for (Type t : typeList) {
                     String typeName = t.getName().toLowerCase();
-                    for (int index = 0; index<wordsList.length; index++){
-                        if (typeName.contains(wordsList[index])){
+                    for (String aWordsList : wordsList) {
+                        if (typeName.contains(aWordsList)) {
                             int current = typeList.indexOf(t);
                             mSpinner.setSelection(current);
                         }
                     }
                 }
             }
-
             @Override
             public void afterTextChanged(Editable editable) {}
         });
         final List<Type> typeList = Type.getList();
 
-        ArrayAdapter<Type> typeAdapter = new ArrayAdapter<Type>(getContext(), R.layout.type_item,
+        ArrayAdapter<Type> typeAdapter = new ArrayAdapter<>(getContext(), R.layout.type_item,
                 R.id.type_name_text, typeList);
         typeAdapter.setDropDownViewResource(R.layout.type_item);
         mSpinner.setAdapter(typeAdapter);
@@ -277,7 +245,7 @@ public class OrderFragment extends Fragment {
         alertDialog.show();
     }
 
-    private void showDeleteDialog(int i, final OrderAdapter orderAdapter) {
+    private void showDeleteDialog(int i) {
         final int index = i;
 
         AlertDialog.Builder builder;
@@ -290,7 +258,7 @@ public class OrderFragment extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch (i) {
                     case 0:
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());;
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setTitle("Elimina")
                                 .setMessage("Vuoi veramente eliminare "+ orderedItems.get(i).getName() + " dal corrente ordine?")
                                 .setPositiveButton("Elimina", new DialogInterface.OnClickListener() {
@@ -300,9 +268,7 @@ public class OrderFragment extends Fragment {
                                     }
                                 })
                                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                    }
+                                    public void onClick(DialogInterface dialog, int which) {}
                                 })
                                 .setCancelable(true)
                                 .show();
@@ -335,6 +301,10 @@ public class OrderFragment extends Fragment {
                 .show();
     }
 
+    public void favoritesChanged(){
+        orderAdapter.notifyDataSetChanged();
+    }
+
     public void onCloseOrder() {
         if (mListener != null) {
             mListener.onOrderInteraction();
@@ -344,6 +314,5 @@ public class OrderFragment extends Fragment {
     public interface OnOrderInteractionListener {
         void onOrderInteraction();
     }
-
 
 }

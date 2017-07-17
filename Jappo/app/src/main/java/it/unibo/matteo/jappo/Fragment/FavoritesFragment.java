@@ -19,7 +19,7 @@ import it.unibo.matteo.jappo.R;
 
 public class FavoritesFragment extends Fragment {
 
-    public static ArrayList<Item> favorites;
+    private static ArrayList<Item> favorites;
     private FavoritesAdapter favoritesAdapter;
     private ListView mFavoriteList;
 

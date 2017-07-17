@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
-        android:text="Seleziona ristorante"
+        android:text="@string/select_restaurant"
         android:textAllCaps="true"
         android:textColor="@color/black"
         android:textSize="24sp" />
@@ -25,15 +25,15 @@
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/new_order_title"
         android:layout_marginTop="17dp"
-        android:layout_toEndOf="@+id/restourant_label" />
+        android:layout_toEndOf="@+id/restaurant_label" />
 
     <TextView
-        android:id="@+id/restourant_label"
+        android:id="@+id/restaurant_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end|center_vertical"
         android:layout_marginStart="24dp"
-        android:text="Ristoranti: "
+        android:text="@string/restaurants"
         android:layout_alignBottom="@+id/restaurant_spinner"
         android:layout_alignTop="@+id/restaurant_spinner"
         android:layout_alignParentStart="true" />
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/rounded_button"
-        android:text="Inizia ordine"
+        android:text="@string/start_order"
         android:textColor="@color/white"
         android:layout_marginBottom="16dp"
         android:layout_alignParentBottom="true"

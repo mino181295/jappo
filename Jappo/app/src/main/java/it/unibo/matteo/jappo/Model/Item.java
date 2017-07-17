@@ -17,7 +17,6 @@ public class Item {
     private Restaurant restaurant;
 
     private boolean isFavorite;
-
     private Date time;
 
     public Item(String name, int number, Type type, Restaurant restaurant) {
@@ -76,12 +75,12 @@ public class Item {
         return date.format(d);
     }
 
-    public boolean isFavorite(List<Item> fav) {
-        return fav.contains(this);
-    }
-
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public boolean isFavorite(List<Item> fav) {
+        return fav.contains(this);
     }
 
     @Override

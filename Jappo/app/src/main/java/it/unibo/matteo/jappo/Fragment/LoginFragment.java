@@ -1,14 +1,12 @@
 package it.unibo.matteo.jappo.Fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +21,8 @@ import it.unibo.matteo.jappo.R;
 import it.unibo.matteo.jappo.Utils.HTTPHelper;
 import it.unibo.matteo.jappo.Utils.JSONHelper;
 import it.unibo.matteo.jappo.Utils.RequestType;
-import it.unibo.matteo.jappo.Utils.SharedPreferencesManager;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 public class LoginFragment extends Fragment {
-
-    private SharedPreferencesManager spManager;
 
     private UserLoginTask mAuthTask = null;
     private static String startingMail;
@@ -50,7 +43,6 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        spManager = new SharedPreferencesManager("Default", getContext());
     }
 
     @Override
@@ -129,7 +121,7 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final RequestType requestType = RequestType.LOGIN;
 

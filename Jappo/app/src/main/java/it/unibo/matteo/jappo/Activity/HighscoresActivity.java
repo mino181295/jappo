@@ -8,6 +8,9 @@ import android.widget.ImageButton;
 
 import it.unibo.matteo.jappo.R;
 
+/**
+ * Activity so show the scores of the user
+ */
 public class HighscoresActivity extends AppCompatActivity {
 
     private Toolbar toolbar;

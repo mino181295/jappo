@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -17,45 +18,55 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import it.unibo.matteo.jappo.Activity.MainActivity;
+import it.unibo.matteo.jappo.Fragment.OrderFragment;
 import it.unibo.matteo.jappo.Model.Item;
 import it.unibo.matteo.jappo.R;
 
 public class FavoritesAdapter extends ArrayAdapter<Item> {
 
-    List<Item> mDataSet;
+    private List<Item> mDataSet;
+    private MainActivity mainActivity;
+    private Fragment currentFragment;
 
     public FavoritesAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Item> objects) {
         super(context, resource, objects);
         mDataSet = objects;
+
+        mainActivity = (MainActivity)getContext();
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, @Nullable View v, @NonNull ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.favorite_item, null);
+        v = inflater.inflate(R.layout.favorite_item, null);
 
-        ImageView typeImage = (ImageView) convertView.findViewById(R.id.item_image);
-        TextView itemName = (TextView) convertView.findViewById(R.id.item_name);
-        TextView itemNumber = (TextView) convertView.findViewById(R.id.item_number);
-        TextView typeName = (TextView) convertView.findViewById(R.id.item_type);
+        final ImageView typeImage = (ImageView) v.findViewById(R.id.item_image);
+        final TextView itemName = (TextView) v.findViewById(R.id.item_name);
+        final TextView itemNumber = (TextView) v.findViewById(R.id.item_number);
+        final TextView typeName = (TextView) v.findViewById(R.id.item_type);
 
         if (position % 2 != 0) {
-            convertView.setBackgroundColor(convertView.getResources().getColor(R.color.background_color));
+            v.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.background_color));
         }
 
-        Item i = getItem(position);
+        final Item i = getItem(position);
+
         typeImage.setImageDrawable(ContextCompat.getDrawable(getContext(), i.getType().getImage()));
-        itemName.setText(i.getName());
+        ImageButton deleteItem = (ImageButton) v.findViewById(R.id.item_delete);
         itemNumber.setText(String.valueOf(i.getNumber()));
         typeName.setText(i.getType().getName());
-
-        ImageButton deleteItem = (ImageButton) convertView.findViewById(R.id.item_delete);
+        itemName.setText(i.getName());
         deleteItem.setTag(position);
+
+        currentFragment = mainActivity.getViewerFragment(1);
+        final OrderFragment of = (currentFragment instanceof OrderFragment) ? (OrderFragment)currentFragment : null;
+
         deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final int index = (Integer) view.getTag() ;
+                final int index = (Integer) view.getTag();
                 AlertDialog.Builder builder;
                 builder = new AlertDialog.Builder(view.getContext());
                 builder.setTitle("Elimina")
@@ -64,16 +75,16 @@ public class FavoritesAdapter extends ArrayAdapter<Item> {
                             public void onClick(DialogInterface dialog, int which) {
                                 mDataSet.remove(index);
                                 notifyDataSetChanged();
+                                //Changes the order fragment view
+                                if (of != null) of.favoritesChanged();
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
+                            public void onClick(DialogInterface dialog, int which) {}
                         })
                         .show();
             }
         });
-
-        return convertView;
+        return v;
     }
 }

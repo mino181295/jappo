@@ -29,7 +29,6 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-
                 <ImageButton
                     android:id="@+id/trophy_button"
                     style="@android:style/Widget.Holo.Light.ImageButton"

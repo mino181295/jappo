@@ -6,6 +6,11 @@
     <string name="password">Password</string>
 
     <string name="login">Accedi</string>
+    <string name="Logout">Esci</string>
+    <string name="privacy">Privacy</string>
+    <string name="colors">Colori</string>
+    <string name="language">Lingua</string>
+
     <string name="register">Registrati</string>
     <string name="create_account">Non hai un account? Clicca qui.</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
@@ -19,8 +24,14 @@
     <string name="action_settings">Impostazioni</string>
     <string name="action_highscores">Highscores</string>
 
-    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="add_element">Aggiungi elemento</string>
+    <string name="add_name">Nome</string>
+    <string name="add">Aggiungi</string>
+    <string name="cancel">Annulla</string>
+    <string name="number">Numero</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="select_restaurant">Seleziona ristorante</string>
+    <string name="restaurants">Ristoranti</string>
+    <string name="start_order">Inizia ordine</string>
 </resources>

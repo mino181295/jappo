@@ -1,7 +1,5 @@
 package it.unibo.matteo.jappo.Fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,8 +14,7 @@ public class CompletedFragment extends Fragment {
     }
 
     public static CompletedFragment newInstance() {
-        CompletedFragment fragment = new CompletedFragment();
-        return fragment;
+        return new CompletedFragment();
     }
 
     @Override
@@ -28,8 +25,7 @@ public class CompletedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_completed, container, false);
-        return v;
+        return inflater.inflate(R.layout.fragment_completed, container, false);
     }
 
 }

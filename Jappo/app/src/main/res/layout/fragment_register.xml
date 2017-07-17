@@ -5,7 +5,6 @@
     android:padding="8dp"
     android:background="@drawable/rounded_box"
     android:orientation="vertical">
-
     <ProgressBar
         android:id="@+id/register_progress"
         android:layout_weight="1"

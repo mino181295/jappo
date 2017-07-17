@@ -1,7 +1,6 @@
 package it.unibo.matteo.jappo.Model;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -13,17 +12,14 @@ import it.unibo.matteo.jappo.Utils.JSONHelper;
 import it.unibo.matteo.jappo.Utils.RequestType;
 import it.unibo.matteo.jappo.Utils.SharedPreferencesManager;
 
-import static it.unibo.matteo.jappo.Fragment.FavoritesFragment.favorites;
-
 public class DataModel {
 
-    public static final String SP_NAME = "Default";
+    private static final String SP_NAME = "Default";
+    private static SharedPreferencesManager spManager;
 
     private User user;
     private Order currentOrder;
     private ArrayList<Restaurant> availableRestaurants;
-
-    private static SharedPreferencesManager spManager;
 
     public DataModel(Context context){
         spManager = new SharedPreferencesManager(SP_NAME, context);
@@ -61,9 +57,8 @@ public class DataModel {
     }
 
     private void loadData(User user){
-        loadRestourants();
+        loadRestaurants();
         loadFavorites(user);
-        loadOrder(user);
     }
 
     private void loadFavorites(User u){
@@ -76,6 +71,14 @@ public class DataModel {
         u.setFavorites(favorites);
     }
 
+    private void loadRestaurants(){
+        HashMap<String, String> loadParams = new HashMap<>();
+        loadParams.put(RequestType.getDefault(), RequestType.GET_REST.getValue());
+
+        String response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, loadParams);
+        availableRestaurants = JSONHelper.parseRestaurants(response);
+    }
+
     public void uploadFavorites(){
         HashMap<String, String> loadParams = new HashMap<>();
         loadParams.put(RequestType.getDefault(), RequestType.UPLOAD_FAV.getValue());
@@ -85,27 +88,12 @@ public class DataModel {
         String response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, loadParams);
     }
 
-    private void loadRestourants(){
-        HashMap<String, String> loadParams = new HashMap<>();
-        loadParams.put(RequestType.getDefault(), RequestType.GET_REST.getValue());
-
-        String response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, loadParams);
-        availableRestaurants = JSONHelper.parseRestaurants(response);
-    }
-
-    private void loadOrder(User u){
-    }
-
-    public User getLoggedUser(){
-        return user;
-    }
-
     public boolean isLoggedIn(){
         return spManager.isLoggedIn();
     }
 
-    public ArrayList<Restaurant> getRestaurants(){
-        return this.availableRestaurants;
+    public User getLoggedUser(){
+        return user;
     }
 
     public boolean hasOpenOrder(){
@@ -130,6 +118,10 @@ public class DataModel {
 
     public void closeOrder(){
         this.currentOrder = null;
+    }
+
+    public ArrayList<Restaurant> getRestaurants(){
+        return this.availableRestaurants;
     }
 
     public static DataModel fromJson(String in){

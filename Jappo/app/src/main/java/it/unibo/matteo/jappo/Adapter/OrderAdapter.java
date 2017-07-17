@@ -24,7 +24,7 @@ import it.unibo.matteo.jappo.R;
 
 public class OrderAdapter extends ArrayAdapter<Item> {
 
-    List<Item> mDataSet;
+    private List<Item> mDataSet;
 
     public OrderAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Item> objects) {
         super(context, resource, objects);
@@ -39,33 +39,27 @@ public class OrderAdapter extends ArrayAdapter<Item> {
         convertView.setTag(position);
 
         final ImageView typeImage = (ImageView) convertView.findViewById(R.id.ordered_image);
-        TextView itemName = (TextView) convertView.findViewById(R.id.ordered_name);
+        final TextView itemName = (TextView) convertView.findViewById(R.id.ordered_name);
 
-        TextView itemNumber = (TextView) convertView.findViewById(R.id.ordered_number);
-        TextView orderedTime = (TextView) convertView.findViewById(R.id.ordered_time);
+        final TextView itemNumber = (TextView) convertView.findViewById(R.id.ordered_number);
+        final TextView orderedTime = (TextView) convertView.findViewById(R.id.ordered_time);
 
         final ImageButton addFavorite = (ImageButton) convertView.findViewById(R.id.ordered_favorite);
 
-        addFavorite.setTag(0);
-
         final MainActivity mainActivity = (MainActivity)getContext();
-        final FavoritesFragment f = (FavoritesFragment)mainActivity.getViewerFragment(0);
+        final FavoritesFragment favoritesFragment = (FavoritesFragment)mainActivity.getViewerFragment(0);
 
         final View finalConvertView = convertView;
+        final Item currentItem = getItem(position);
         addFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final int isFavourite = (Integer) addFavorite.getTag();
                 final int position = (Integer) finalConvertView.getTag();
-
-                if (isFavourite == 1){
-                    f.removeItemFromFavourites(getItem(position));
-                    addFavorite.setImageResource(R.mipmap.star_icon_empty);
-                    addFavorite.setTag(0);
+                if (currentItem.isFavorite(favoritesFragment.getFavourites())){
+                    favoritesFragment.removeItemFromFavourites(currentItem);
+                    notifyDataSetChanged();
                 } else {
-                    f.addItemToFavourites(getItem(position));
-                    addFavorite.setImageResource(R.mipmap.star_icon_fill);
-                    addFavorite.setTag(1);
+                    favoritesFragment.addItemToFavourites(currentItem);
                     Snackbar.make(view, "Aggiunto ai preferiti", Snackbar.LENGTH_LONG)
                             .setAction("Visualizza", new View.OnClickListener() {
                                 @Override
@@ -75,22 +69,22 @@ public class OrderAdapter extends ArrayAdapter<Item> {
                             })
                             .setActionTextColor(ContextCompat.getColor(getContext(), R.color.white))
                             .show();
+                    notifyDataSetChanged();
                 }
             }
         });
-
-        Item i = getItem(position);
-        if (i.isFavorite(f.getFavourites())){
+        //If for the favorite star appearence
+        if (currentItem.isFavorite(favoritesFragment.getFavourites())){
             addFavorite.setImageResource(R.mipmap.star_icon_fill);
         } else {
             addFavorite.setImageResource(R.mipmap.star_icon_empty);
         }
-        typeImage.setImageDrawable(ContextCompat.getDrawable(getContext(), i.getType().getImage()));
-        itemNumber.setText(String.valueOf(i.getNumber()));
-        orderedTime.setText(i.getTimeString());
-        itemName.setText(i.getName());
+
+        typeImage.setImageDrawable(ContextCompat.getDrawable(getContext(), currentItem.getType().getImage()));
+        itemNumber.setText(String.valueOf(currentItem.getNumber()));
+        orderedTime.setText(currentItem.getTimeString());
+        itemName.setText(currentItem.getName());
 
         return convertView;
-
     }
 }

@@ -1,7 +1,5 @@
 package it.unibo.matteo.jappo.Fragment;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,40 +10,28 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidParameterSpecException;
 import java.util.HashMap;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 
 import it.unibo.matteo.jappo.Activity.LoginActivity;
 import it.unibo.matteo.jappo.R;
 import it.unibo.matteo.jappo.Utils.HTTPHelper;
 import it.unibo.matteo.jappo.Utils.JSONHelper;
 import it.unibo.matteo.jappo.Utils.RequestType;
-import it.unibo.matteo.jappo.Utils.SecurityHelper;
-
-import static it.unibo.matteo.jappo.R.string.email;
 
 public class RegisterFragment extends Fragment {
 
     private RegisterTask mRegisterTask = null;
 
-    public TextView mPasswordText;
-    public TextView mMailText;
-    public TextView mNameText;
+    private TextView mPasswordText;
+    private TextView mMailText;
+    private TextView mNameText;
 
-    View mProgressView;
+    private View mProgressView;
 
     public RegisterFragment() {}
 
     public static RegisterFragment newInstance() {
-        RegisterFragment fragment = new RegisterFragment();
-        return fragment;
+        return new RegisterFragment();
     }
 
     @Override
@@ -54,9 +40,9 @@ public class RegisterFragment extends Fragment {
 
         View  mainView = inflater.inflate(R.layout.fragment_register, container, false);
 
-        mPasswordText = (TextView) mainView.findViewById(R.id.register_password_text);
-        mMailText = (TextView) mainView.findViewById(R.id.register_mail_text);
         mNameText = (TextView) mainView.findViewById(R.id.register_name_text);
+        mMailText = (TextView) mainView.findViewById(R.id.register_mail_text);
+        mPasswordText = (TextView) mainView.findViewById(R.id.register_password_text);
         mProgressView = mainView.findViewById(R.id.register_progress);
 
         return mainView;
@@ -135,7 +121,7 @@ public class RegisterFragment extends Fragment {
         }
     }
 
-    public class RegisterTask extends AsyncTask<Void, Void, Boolean> {
+    private class RegisterTask extends AsyncTask<Void, Void, Boolean> {
 
         private final RequestType requestType = RequestType.REGISTER;
 

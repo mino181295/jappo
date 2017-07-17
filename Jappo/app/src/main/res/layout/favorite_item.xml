@@ -13,13 +13,12 @@
         civ_border_color="@color/black"
         civ_border_width="2dp"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sashimi Misto"
         android:textColor="@color/black"
 
         android:textSize="18sp"
@@ -31,7 +30,6 @@
         android:id="@+id/item_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="22"
         android:textSize="16sp"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/item_delete"
@@ -52,6 +50,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/item_image"
-        android:layout_alignStart="@+id/item_name"
-        android:text="Fuji" />
+        android:layout_alignStart="@+id/item_name" />
 </RelativeLayout>

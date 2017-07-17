@@ -14,13 +14,12 @@
         civ_border_color="@color/black"
         civ_border_width="2dp"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/ordered_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sashimi Misto"
         android:textColor="@color/black"
 
         android:textSize="18sp"
@@ -32,7 +31,6 @@
         android:id="@+id/ordered_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="22"
         android:textSize="16sp"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/ordered_favorite"
@@ -54,7 +52,6 @@
         android:id="@+id/ordered_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="22:35"
         android:layout_alignBottom="@+id/ordered_image"
         android:layout_alignStart="@+id/ordered_name" />
 </RelativeLayout>

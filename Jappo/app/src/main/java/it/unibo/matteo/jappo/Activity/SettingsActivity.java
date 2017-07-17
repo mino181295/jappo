@@ -1,19 +1,29 @@
 package it.unibo.matteo.jappo.Activity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import it.unibo.matteo.jappo.Model.DataModel;
 import it.unibo.matteo.jappo.Model.User;
 import it.unibo.matteo.jappo.R;
@@ -22,8 +32,11 @@ import it.unibo.matteo.jappo.Utils.SharedPreferencesManager;
 public class SettingsActivity extends AppCompatActivity {
 
     SharedPreferencesManager spManager;
+    CircleImageView circleImageView;
     TextView mNameTextView;
     User loggedUser;
+
+    public static final int PICK_PHOTO_FOR_AVATAR = 999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +68,14 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showDialog();
+            }
+        });
+
+        circleImageView = (CircleImageView) findViewById(R.id.profile_image);
+        circleImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickImage();
             }
         });
     }
@@ -91,4 +112,44 @@ public class SettingsActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    public void pickImage() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_PHOTO_FOR_AVATAR);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_PHOTO_FOR_AVATAR && resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                return;
+            }
+            try {
+                InputStream inputStream = getBaseContext().getContentResolver().openInputStream(data.getData());
+                Bitmap bmp = BitmapFactory.decodeStream(inputStream);
+                circleImageView.setImageBitmap(bmp);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static String encodeTobase64(Bitmap image)
+    {
+        Bitmap immagex=image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        immagex.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b,Base64.DEFAULT);
+
+        return imageEncoded;
+    }
+    public static Bitmap decodeBase64(String input)
+    {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+    }
+
 }
