@@ -3,16 +3,11 @@ package it.unibo.matteo.jappo.Fragment;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,26 +16,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.security.Permission;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import it.unibo.matteo.jappo.Model.Item;
 import it.unibo.matteo.jappo.Model.Restaurant;
 import it.unibo.matteo.jappo.R;
 
-import static android.os.Build.VERSION_CODES.DONUT;
-import static android.os.Build.VERSION_CODES.M;
 import static it.unibo.matteo.jappo.R.id.map;
 
 public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
@@ -49,9 +36,9 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private Spinner mSpinner;
 
-    private OnFragmentInteractionListener mListener;
+    private OnNewOrderInteractionListener mListener;
 
-    View mView;
+    private View mView;
 
     public static ArrayList<Restaurant> restourants;
 
@@ -121,11 +108,11 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnNewOrderInteractionListener) {
+            mListener = (OnNewOrderInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnNewOrderInteractionListener");
         }
     }
 
@@ -172,11 +159,11 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
 
     public void onButtonPressed(Restaurant r) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(r);
+            mListener.onNewOrderInteraction(r);
         }
     }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Restaurant r);
+    public interface OnNewOrderInteractionListener {
+        void onNewOrderInteraction(Restaurant r);
     }
 }

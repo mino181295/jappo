@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     tools:context="it.unibo.matteo.jappo.Fragment.NewOrderFragment"
     android:orientation="vertical">
-
-
     <TextView
         android:id="@+id/new_order_title"
         android:layout_width="wrap_content"
@@ -13,10 +11,10 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
-        android:text="Nuovo ordine"
+        android:text="Seleziona ristorante"
         android:textAllCaps="true"
         android:textColor="@color/black"
-        android:textSize="28sp" />
+        android:textSize="24sp" />
 
     <Spinner
         android:id="@+id/restaurant_spinner"
@@ -62,6 +60,4 @@
         android:layout_marginBottom="8dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" />
-
-
 </RelativeLayout>

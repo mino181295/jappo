@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:descendantFocusability="blocksDescendants">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ordered_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/test"
+        android:layout_marginStart="16dp"
+        civ_border_color="@color/black"
+        civ_border_width="2dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:id="@+id/ordered_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sashimi Misto"
+        android:textColor="@color/black"
+
+        android:textSize="18sp"
+        android:layout_marginStart="16dp"
+        android:layout_alignTop="@+id/ordered_image"
+        android:layout_toEndOf="@+id/ordered_image" />
+
+    <TextView
+        android:id="@+id/ordered_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="22"
+        android:textSize="16sp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/ordered_favorite"
+        android:layout_marginEnd="19dp" />
+
+    <ImageButton
+        android:id="@+id/ordered_favorite"
+        android:focusableInTouchMode="true"
+        android:layout_marginEnd="16dp"
+        android:scaleType="fitCenter"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="?android:selectableItemBackground"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@mipmap/star_icon_empty"/>
+
+    <TextView
+        android:id="@+id/ordered_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="22:35"
+        android:layout_alignBottom="@+id/ordered_image"
+        android:layout_alignStart="@+id/ordered_name" />
+</RelativeLayout>

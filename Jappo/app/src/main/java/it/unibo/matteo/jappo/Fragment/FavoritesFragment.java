@@ -10,14 +10,17 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import it.unibo.matteo.jappo.Adapter.FavoritesAdapter;
+import it.unibo.matteo.jappo.Model.DataModel;
 import it.unibo.matteo.jappo.Model.Item;
 import it.unibo.matteo.jappo.R;
 
 public class FavoritesFragment extends Fragment {
 
     public static ArrayList<Item> favorites;
+    private FavoritesAdapter favoritesAdapter;
     private ListView mFavoriteList;
 
     public FavoritesFragment() {
@@ -40,10 +43,27 @@ public class FavoritesFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_favorites, container, false);
 
         mFavoriteList = (ListView)v.findViewById(R.id.favorites_list);
-        FavoritesAdapter favoritesAdapter = new FavoritesAdapter(getContext(), R.layout.favorite_item, favorites);
+        favoritesAdapter = new FavoritesAdapter(getContext(), R.layout.favorite_item, favorites);
         mFavoriteList.setAdapter(favoritesAdapter);
 
         return v;
+    }
+
+    public void addItemToFavourites(Item i){
+        i.setFavorite(true);
+        favorites.add(i);
+        favoritesAdapter.notifyDataSetChanged();
+
+    }
+
+    public void removeItemFromFavourites(Item i){
+        i.setFavorite(false);
+        favorites.remove(i);
+        favoritesAdapter.notifyDataSetChanged();
+    }
+
+    public ArrayList<Item> getFavourites(){
+        return this.favorites;
     }
 
 }

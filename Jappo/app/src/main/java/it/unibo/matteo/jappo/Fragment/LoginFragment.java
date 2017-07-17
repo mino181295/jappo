@@ -34,11 +34,10 @@ public class LoginFragment extends Fragment {
     private UserLoginTask mAuthTask = null;
     private static String startingMail;
 
-
     public TextView mPasswordText;
     public TextView mMailText;
 
-    View mProgressView;
+    private View mProgressView;
 
     public LoginFragment(){}
 

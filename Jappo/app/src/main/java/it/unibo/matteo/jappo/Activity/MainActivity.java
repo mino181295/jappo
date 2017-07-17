@@ -1,7 +1,8 @@
 package it.unibo.matteo.jappo.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.database.DataSetObserver;
+import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.View;
@@ -23,14 +23,11 @@ import it.unibo.matteo.jappo.Fragment.FavoritesFragment;
 import it.unibo.matteo.jappo.Fragment.NewOrderFragment;
 import it.unibo.matteo.jappo.Fragment.OrderFragment;
 import it.unibo.matteo.jappo.Model.DataModel;
-import it.unibo.matteo.jappo.Model.Order;
 import it.unibo.matteo.jappo.Model.Restaurant;
 import it.unibo.matteo.jappo.R;
 
-import static android.support.v4.view.PagerAdapter.POSITION_NONE;
-import static android.support.v4.view.PagerAdapter.POSITION_UNCHANGED;
-
-public class MainActivity extends AppCompatActivity implements NewOrderFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements NewOrderFragment.OnNewOrderInteractionListener,
+        OrderFragment.OnOrderInteractionListener{
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private DataModel dm;
@@ -73,6 +70,22 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
@@ -91,15 +104,46 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
 
     @Override
     protected void onStop() {
-        dm.save();
+        new AsyncTask<Object, Object, Void>() {
+            @Override
+            protected Void doInBackground(Object... voids) {
+                dm.uploadFavorites();
+                dm.save();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+            }
+        }.execute();
         super.onStop();
     }
 
     @Override
-    public void onFragmentInteraction(Restaurant r) {
-        Fragment orderFragment = OrderFragment.newInstance();
-        mSectionsPagerAdapter.replaceFragment(1,orderFragment);
+    protected void onStart() {
+        super.onStart();
+    }
 
+    @Override
+    public void onNewOrderInteraction(Restaurant r) {
+        dm.createOrder(r);
+        Fragment orderFragment = OrderFragment.newInstance(dm.getOrder());
+        mSectionsPagerAdapter.replaceFragment(1,orderFragment);
+    }
+
+    @Override
+    public void onOrderInteraction() {
+        dm.closeOrder();
+        Fragment newOrdFragment = NewOrderFragment.newInstance(dm.getRestaurants());
+        mSectionsPagerAdapter.replaceFragment(1, newOrdFragment);
+    }
+
+    public void setViewerPage(int i){
+        mViewPager.setCurrentItem(i);
+    }
+
+    public Fragment getViewerFragment(int i){
+        return  mSectionsPagerAdapter.getItem(i);
     }
 
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
@@ -114,7 +158,13 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
             mainViewFragments = new Fragment[3];
 
             mainViewFragments[0] = FavoritesFragment.newInstance(dm.getLoggedUser().getFavorites());
-            mainViewFragments[1] = NewOrderFragment.newInstance(dm.getRestaurants());
+
+            if (dm.hasOpenOrder()){
+                mainViewFragments[1] = OrderFragment.newInstance(dm.getOrder());
+            } else {
+                mainViewFragments[1] = NewOrderFragment.newInstance(dm.getRestaurants());
+            }
+
             mainViewFragments[2] = CompletedFragment.newInstance();
         }
 
@@ -154,8 +204,5 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
             mainViewFragments[i] = f;
             notifyDataSetChanged();
         }
-
-
-
     }
 }

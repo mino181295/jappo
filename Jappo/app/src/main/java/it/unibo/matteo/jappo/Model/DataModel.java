@@ -1,6 +1,7 @@
 package it.unibo.matteo.jappo.Model;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -75,6 +76,15 @@ public class DataModel {
         u.setFavorites(favorites);
     }
 
+    public void uploadFavorites(){
+        HashMap<String, String> loadParams = new HashMap<>();
+        loadParams.put(RequestType.getDefault(), RequestType.UPLOAD_FAV.getValue());
+        loadParams.put("fav", new Gson().toJson(user.getFavorites()));
+        loadParams.put("user", String.valueOf(user.getId()));
+
+        String response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, loadParams);
+    }
+
     private void loadRestourants(){
         HashMap<String, String> loadParams = new HashMap<>();
         loadParams.put(RequestType.getDefault(), RequestType.GET_REST.getValue());
@@ -96,6 +106,30 @@ public class DataModel {
 
     public ArrayList<Restaurant> getRestaurants(){
         return this.availableRestaurants;
+    }
+
+    public boolean hasOpenOrder(){
+        if (currentOrder != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Order getOrder(){
+        if (hasOpenOrder()){
+            return this.currentOrder;
+        } else {
+            return null;
+        }
+    }
+
+    public void createOrder(Restaurant r){
+        this.currentOrder = new Order(r);
+    }
+
+    public void closeOrder(){
+        this.currentOrder = null;
     }
 
     public static DataModel fromJson(String in){

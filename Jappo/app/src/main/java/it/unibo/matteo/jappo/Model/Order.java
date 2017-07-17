@@ -1,5 +1,7 @@
 package it.unibo.matteo.jappo.Model;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 
@@ -10,13 +12,14 @@ public class Order {
 
     Restaurant restourant;
 
-    public Order(ArrayList<Item> items){
-        this.orderedItems = items;
+    public Order(Restaurant r) {
+        this.orderedItems = new ArrayList<>();
         this.arrivedItems = new ArrayList<>();
+        this.restourant = r;
     }
 
     public Order(){
-        this(new ArrayList<Item>());
+        this(null);
     }
 
     public Restaurant getRestourant() {
@@ -28,14 +31,27 @@ public class Order {
     }
 
     public void addItem(Item i){
-        this.orderedItems.add(i);
+        orderedItems.add(i);
     }
 
     public void arrivedItem(Item i){
         if (orderedItems.contains(i)){
             orderedItems.remove(i);
             arrivedItems.add(i);
+            i.setTime(Item.getCurrentTime());
         }
+    }
+
+    public ArrayList<Item> getOrderedItems() {
+        return orderedItems;
+    }
+
+    public String getJson(){
+        return new Gson().toJson(this);
+    }
+
+    public static Order fromJson(String in){
+        return new Gson().fromJson(in, Order.class);
     }
 
 }
