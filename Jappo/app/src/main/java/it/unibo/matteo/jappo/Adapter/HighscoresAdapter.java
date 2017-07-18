@@ -14,12 +14,23 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import it.unibo.matteo.jappo.Model.DataModel;
 import it.unibo.matteo.jappo.Model.Score;
+import it.unibo.matteo.jappo.Model.User;
 import it.unibo.matteo.jappo.R;
 
 public class HighscoresAdapter extends ArrayAdapter<Score> {
+
+    List<Score> mDataSet;
+    DataModel dm;
+    User loggedUser;
+
     public HighscoresAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Score> objects) {
         super(context, resource, objects);
+        mDataSet = objects;
+        dm = new DataModel(getContext());
+        dm.load();
+        loggedUser = dm.getLoggedUser();
     }
 
     @NonNull
@@ -35,17 +46,22 @@ public class HighscoresAdapter extends ArrayAdapter<Score> {
 
         Score s = getItem(position);
 
+        if (s.getName().equals(loggedUser.getName())) {
+            v.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.background_color));
+        }
+
         nameText.setText(s.getName());
-        positionText.setText(String.valueOf(position));
+        positionText.setText(String.valueOf(position+1));
         switch (position){
-            case 0: positionText.setTextColor(Color.YELLOW);
+            case 0: positionText.setTextColor(ContextCompat.getColor(getContext(), R.color.fab_material_amber_500));
                 break;
             case 1: positionText.setTextColor(Color.LTGRAY);
                 break;
-            case 2: positionText.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+            case 2: positionText.setTextColor(ContextCompat.getColor(getContext(), R.color.background_color));
+                break;
         }
         timeText.setText(s.getDate());
-        valueText.setText(s.getValue());
+        valueText.setText(String.valueOf(s.getValue()));
 
         return v;
     }

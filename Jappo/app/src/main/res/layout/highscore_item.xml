@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp">
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp">
 
     <TextView
         android:id="@+id/highscores_position"
@@ -13,10 +13,10 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
         android:background="@drawable/circle_textview"
+        android:textColor="@color/white"
         android:fontFamily="sans-serif-condensed"
         android:gravity="center"
         android:src="@drawable/test"
-        android:text="12"
         android:textSize="24sp" />
 
     <TextView
@@ -24,13 +24,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:text="Matteo Minardi"
         android:gravity="center_vertical"
         android:textSize="18sp"
         android:layout_marginStart="16dp"
         android:layout_alignTop="@id/highscores_position"
         android:layout_toEndOf="@id/highscores_position"
-        android:layout_above="@id/completed_time_label" />
+        android:layout_above="@id/highscore_time_label" />
 
     <TextView
         android:id="@+id/highscore_value"
@@ -40,26 +39,27 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="19dp"
         android:text="22"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="32sp" />
 
     <TextView
-        android:id="@+id/completed_time_label"
+        android:id="@+id/highscore_time_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/highscores_position"
         android:layout_alignStart="@+id/highscore_name"
         android:gravity="center_vertical"
+        android:textColor="@color/fab_material_blue_grey_900"
         android:text="Ultimo ordine" />
 
     <TextView
         android:id="@+id/highscores_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/completed_time_label"
-        android:layout_alignBottom="@id/completed_time_label"
+        android:layout_alignBaseline="@id/highscore_time_label"
+        android:layout_alignBottom="@id/highscore_time_label"
         android:layout_marginStart="4dp"
-        android:layout_toEndOf="@id/completed_time_label"
+        android:layout_toEndOf="@id/highscore_time_label"
         android:gravity="center_vertical"
-        android:text="22/07/2017" />
+        android:textColor="@color/fab_material_blue_grey_900" />
 </RelativeLayout>

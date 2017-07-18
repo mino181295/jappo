@@ -58,12 +58,13 @@ public class HighscoresActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(ArrayList<Score> resultHighscores) {
                 highscores = resultHighscores;
+                mHighscoresList = (ListView)findViewById(R.id.highscores_list);
+                highscoresAdapter = new HighscoresAdapter(getApplicationContext(), R.layout.highscore_item, highscores);
+                mHighscoresList.setAdapter(highscoresAdapter);
             }
         };
         mHighscoresTask.execute((Void) null);
 
-        mHighscoresList = (ListView)findViewById(R.id.highscores_list);
-        highscoresAdapter = new HighscoresAdapter(getApplicationContext(), R.layout.highscore_item, highscores);
-        mHighscoresList.setAdapter(highscoresAdapter);
+
     }
 }

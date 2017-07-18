@@ -34,21 +34,12 @@ public class Score {
 
     public String getDate() {
         Date nowDate = new Date();
-        long secondsDifference = nowDate.getTime() - date.getTime();
-
-        if (secondsDifference < 60) {
-            return secondsDifference + " secondi fa.";
-        } else if (secondsDifference < 60 * 60) {
-            long minutes = secondsDifference / 60;
-            return minutes + " minuti fa.";
-        } else if (secondsDifference < 60 * 60 * 24) {
-            long hours = secondsDifference / (60 * 60);
-            return hours + " ore fa.";
-        } else if (secondsDifference < 60 * 60 * 24 * 7) {
-            long days = secondsDifference / (60 * 60 * 24);
-            return days + " giorni fa.";
+        long secondsDifference = (nowDate.getTime() - date.getTime()) / 1000;
+        if (secondsDifference < 60 * 60 * 24) {
+            return new SimpleDateFormat("HH:mm").format(date);
         } else {
-            return dateFormat.format(this.date);
+            return new SimpleDateFormat("dd-MM-yy").format(date);
+
         }
     }
 }

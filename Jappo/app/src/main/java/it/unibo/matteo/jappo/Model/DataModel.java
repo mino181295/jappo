@@ -13,6 +13,9 @@ import it.unibo.matteo.jappo.Utils.JSONHelper;
 import it.unibo.matteo.jappo.Utils.RequestType;
 import it.unibo.matteo.jappo.Utils.SharedPreferencesManager;
 
+import static android.R.attr.value;
+import static it.unibo.matteo.jappo.Utils.HTTPHelper.connectPost;
+
 public class DataModel {
 
     private static final String SP_NAME = "Default";
@@ -68,7 +71,7 @@ public class DataModel {
         loadParams.put(RequestType.getDefault(), RequestType.GET_FAV.getValue());
         loadParams.put("id", String.valueOf(u.getId()));
 
-        String response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, loadParams);
+        String response = connectPost(HTTPHelper.REST_BACKEND, loadParams);
         ArrayList<Item> favorites = JSONHelper.parseFavorites(response);
         u.setFavorites(favorites);
     }
@@ -77,7 +80,7 @@ public class DataModel {
         HashMap<String, String> loadParams = new HashMap<>();
         loadParams.put(RequestType.getDefault(), RequestType.GET_REST.getValue());
 
-        String response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, loadParams);
+        String response = connectPost(HTTPHelper.REST_BACKEND, loadParams);
         availableRestaurants = JSONHelper.parseRestaurants(response);
     }
 
@@ -87,7 +90,7 @@ public class DataModel {
         loadParams.put("fav", new Gson().toJson(user.getFavorites()));
         loadParams.put("user", String.valueOf(user.getId()));
 
-        String response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, loadParams);
+        String response = connectPost(HTTPHelper.REST_BACKEND, loadParams);
     }
 
     public boolean isLoggedIn(){
@@ -130,9 +133,18 @@ public class DataModel {
         HashMap<String, String> params = new HashMap<>();
         params.put(RequestType.getDefault(), RequestType.GET_HIGHSCORES.getValue());
 
-        String response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, params);
+        String response = connectPost(HTTPHelper.REST_BACKEND, params);
         ArrayList<Score> highscores = JSONHelper.parseHighscores(response);
         return highscores;
+    }
+
+    public void updateUserHighScore(int value){
+        HashMap<String, String> params = new HashMap<>();
+        params.put(RequestType.getDefault(), RequestType.UPDATE_HIGHSCORE.getValue());
+        params.put("number", String.valueOf(value));
+        params.put("id", String.valueOf(user.getId()));
+
+        String response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, params);
     }
 
     public static DataModel fromJson(String in){

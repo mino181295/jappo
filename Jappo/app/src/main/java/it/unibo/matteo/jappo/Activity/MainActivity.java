@@ -118,14 +118,26 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
 
     @Override
     public void onOrderInteraction() {
-        dm.closeOrder();
-        dm.save();
+        final int scorePoints = dm.getOrder().getArrivedItems().size();
+        new AsyncTask<Integer, Void, Void>(){
+            @Override
+            protected Void doInBackground(Integer... ints) {
+                dm.updateUserHighScore(ints[0]);
+                return null;
+            }
 
-        Fragment newOrdFragment = NewOrderFragment.newInstance(dm.getRestaurants());
-        mSectionsPagerAdapter.replaceFragment(1, newOrdFragment);
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                dm.closeOrder();
+                dm.save();
 
-        CompletedFragment completedFragment = CompletedFragment.newInstance();
-        mSectionsPagerAdapter.replaceFragment(2, completedFragment);
+                Fragment newOrdFragment = NewOrderFragment.newInstance(dm.getRestaurants());
+                mSectionsPagerAdapter.replaceFragment(1, newOrdFragment);
+
+                CompletedFragment completedFragment = CompletedFragment.newInstance();
+                mSectionsPagerAdapter.replaceFragment(2, completedFragment);
+            }
+        }.execute(scorePoints);
     }
 
     public void setViewerPage(int i){
@@ -137,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
     }
 
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
-
         Fragment [] mainViewFragments;
         FragmentManager fm;
 
