@@ -6,7 +6,7 @@
 
     <ListView
         android:layout_marginTop="8dp"
-        android:id="@+id/favorites_list"
+        android:id="@+id/favourite_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true" />

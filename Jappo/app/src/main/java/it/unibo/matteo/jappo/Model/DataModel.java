@@ -56,7 +56,7 @@ public class DataModel {
         spManager.setLoggedUser(user);
     }
 
-    private void loadData(User user){
+    public void loadData(User user){
         loadRestaurants();
         loadFavorites(user);
     }

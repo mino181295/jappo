@@ -70,22 +70,6 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
@@ -111,10 +95,6 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
                 dm.save();
                 return null;
             }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-            }
         }.execute();
         super.onStop();
     }
@@ -127,15 +107,25 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
     @Override
     public void onNewOrderInteraction(Restaurant r) {
         dm.createOrder(r);
+        dm.save();
+
         Fragment orderFragment = OrderFragment.newInstance(dm.getOrder());
         mSectionsPagerAdapter.replaceFragment(1,orderFragment);
+
+        Fragment completedFragment = CompletedFragment.newInstance(dm.getOrder());
+        mSectionsPagerAdapter.replaceFragment(2, completedFragment);
     }
 
     @Override
     public void onOrderInteraction() {
         dm.closeOrder();
+        dm.save();
+
         Fragment newOrdFragment = NewOrderFragment.newInstance(dm.getRestaurants());
         mSectionsPagerAdapter.replaceFragment(1, newOrdFragment);
+
+        CompletedFragment completedFragment = CompletedFragment.newInstance();
+        mSectionsPagerAdapter.replaceFragment(2, completedFragment);
     }
 
     public void setViewerPage(int i){
@@ -165,7 +155,11 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
                 mainViewFragments[1] = NewOrderFragment.newInstance(dm.getRestaurants());
             }
 
-            mainViewFragments[2] = CompletedFragment.newInstance();
+            if (dm.hasOpenOrder()){
+                mainViewFragments[2] = CompletedFragment.newInstance(dm.getOrder());
+            } else {
+                mainViewFragments[2] = CompletedFragment.newInstance();
+            }
         }
 
         @Override
@@ -176,7 +170,8 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
         @Override
         public int getItemPosition(Object object) {
             // this method will be called for every fragment in the ViewPager
-            if (object instanceof NewOrderFragment || object instanceof OrderFragment ) {
+            if (object instanceof NewOrderFragment || object instanceof OrderFragment
+                    || object instanceof CompletedFragment) {
                 return POSITION_NONE;
             } else {
                 // POSITION_NONE means something like: this fragment is no longer valid

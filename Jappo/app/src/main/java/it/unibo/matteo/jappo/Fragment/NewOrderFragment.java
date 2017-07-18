@@ -2,7 +2,9 @@ package it.unibo.matteo.jappo.Fragment;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,9 +23,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import it.unibo.matteo.jappo.Model.Restaurant;
 import it.unibo.matteo.jappo.R;
@@ -140,6 +144,7 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
             MarkerOptions mMarker = new MarkerOptions().position(coordinates)
                     .title(r.getName())
                     .snippet(r.getAddress());
+
             googleMap.clear();
 
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
@@ -147,6 +152,18 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
             }
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15.0f));
             googleMap.addMarker(mMarker);
+            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    double destinationLatitude = marker.getPosition().latitude;
+                    double destinationLongitude = marker.getPosition().longitude;
+                    String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f", destinationLatitude, destinationLongitude);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                    intent.setPackage("com.google.android.apps.maps");
+                    startActivity(intent);
+                    return false;
+                }
+            });
         }
     }
 

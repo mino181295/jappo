@@ -27,7 +27,7 @@
         android:layout_marginTop="16dp"
         android:id="@+id/add_type_box">
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/item_image"
+            android:id="@+id/completed_image"
             civ_border_color="@color/black"
             civ_border_width="2dp"
             android:layout_width="40dp"

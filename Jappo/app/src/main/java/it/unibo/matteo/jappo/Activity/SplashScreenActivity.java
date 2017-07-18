@@ -83,6 +83,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             if (logged) {
                 DataModel dm = new DataModel(getApplicationContext());
                 dm.load();
+                dm.loadData(dm.getLoggedUser());
                 dm.save();
             }
             return logged;

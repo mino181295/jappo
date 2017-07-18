@@ -12,6 +12,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import de.hdodenhof.circleimageview.CircleImageView;
+import it.unibo.matteo.jappo.Activity.MainActivity;
 import it.unibo.matteo.jappo.Adapter.OrderAdapter;
 import it.unibo.matteo.jappo.Model.Item;
 import it.unibo.matteo.jappo.Model.Order;
@@ -38,6 +41,7 @@ public class OrderFragment extends Fragment {
     private static ArrayList<Item> orderedItems;
     private OrderAdapter orderAdapter;
     private static Order order;
+    private ListView orderList;
 
     private OnOrderInteractionListener mListener;
 
@@ -92,7 +96,7 @@ public class OrderFragment extends Fragment {
             }
         });
 
-        ListView orderList = (ListView) mView.findViewById(R.id.order_list);
+        orderList = (ListView) mView.findViewById(R.id.order_list);
         orderAdapter = new OrderAdapter(getContext(), R.layout.order_item, orderedItems);
         orderList.setAdapter(orderAdapter);
 
@@ -168,7 +172,7 @@ public class OrderFragment extends Fragment {
         builder.setView(dialogView)
                .setCancelable(false);
 
-        final CircleImageView typeImage = (CircleImageView) dialogView.findViewById(R.id.item_image);
+        final CircleImageView typeImage = (CircleImageView) dialogView.findViewById(R.id.completed_image);
         final TextView mNumber = (TextView) dialogView.findViewById(R.id.add_item_number_text);
         final Spinner mSpinner = (Spinner) dialogView.findViewById(R.id.add_type_spinner);
         final TextView mNameView = (TextView) dialogView.findViewById(R.id.add_item_name_text);
@@ -264,7 +268,13 @@ public class OrderFragment extends Fragment {
                                 .setPositiveButton("Elimina", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         orderedItems.remove(index);
-                                        orderAdapter.notifyDataSetChanged();
+                                        fadeOutView(orderList.getChildAt(index));
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                favoritesChanged();
+                                            }
+                                        }, 400);
                                     }
                                 })
                                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -275,6 +285,18 @@ public class OrderFragment extends Fragment {
 
                         break;
                     case 2:
+                        MainActivity activity = (MainActivity)getContext();
+                        CompletedFragment completedFragment = (CompletedFragment) activity.getViewerFragment(2);
+
+                        order.setArrivedItem(orderedItems.get(index));
+                        slideOutView(orderList.getChildAt(index));
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                favoritesChanged();
+                            }
+                        }, 500);
+                        completedFragment.completedChanged();
                         break;
                 }
             }
@@ -308,6 +330,50 @@ public class OrderFragment extends Fragment {
     public void onCloseOrder() {
         if (mListener != null) {
             mListener.onOrderInteraction();
+        }
+    }
+
+    private void slideOutView(View view) {
+        Animation slideOut = AnimationUtils.loadAnimation(view.getContext(), R.anim.slide_out_right);
+        final View finalView = view;
+        if (slideOut != null) {
+            slideOut.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    finalView.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+            view.startAnimation(slideOut);
+        }
+    }
+
+    private void fadeOutView(View view) {
+        Animation slideOut = AnimationUtils.loadAnimation(view.getContext(), R.anim.fade_out_animation);
+        final View finalView = view;
+        if (slideOut != null) {
+            slideOut.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    finalView.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+            view.startAnimation(slideOut);
         }
     }
 

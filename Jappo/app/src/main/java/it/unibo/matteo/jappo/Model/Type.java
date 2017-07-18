@@ -13,7 +13,10 @@ public enum Type {
     @SerializedName("3") TEMAKI(3, "Temaki", R.drawable.type_3),
     @SerializedName("4") HOSOMAKI(4, "Hosomaki", R.drawable.type_4),
     @SerializedName("5") URAMAKI(5, "Uramaki", R.drawable.type_5),
-    @SerializedName("6") NIGHIRI(6, "Nighiri", R.drawable.type_6);
+    @SerializedName("6") NIGHIRI(6, "Nighiri", R.drawable.type_6),
+    @SerializedName("7") DOLCE(7, "Dolce", R.drawable.type_7),
+    @SerializedName("8") ONIGHIRI(8, "Onighiri", R.drawable.type_8),
+    @SerializedName("9") ZUPPA(9, "Zuppa", R.drawable.type_9);
 
     private int number;
     private String name;

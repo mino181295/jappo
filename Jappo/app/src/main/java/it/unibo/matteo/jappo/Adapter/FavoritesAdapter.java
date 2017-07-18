@@ -56,7 +56,12 @@ public class FavoritesAdapter extends ArrayAdapter<Item> {
         typeImage.setImageDrawable(ContextCompat.getDrawable(getContext(), i.getType().getImage()));
         ImageButton deleteItem = (ImageButton) v.findViewById(R.id.item_delete);
         itemNumber.setText(String.valueOf(i.getNumber()));
-        typeName.setText(i.getType().getName());
+
+        if (i.getRestaurant() != null){
+            typeName.setText(i.getRestaurant().toString());
+        } else {
+            typeName.setText(i.getType().getName());
+        }
         itemName.setText(i.getName());
         deleteItem.setTag(position);
 

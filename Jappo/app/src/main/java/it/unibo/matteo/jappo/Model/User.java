@@ -53,4 +53,6 @@ public class User {
     public void setFavorites(ArrayList<Item> favorites) {
         this.favorites = favorites;
     }
+
+
 }

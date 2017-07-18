@@ -34,7 +34,7 @@ public class Order {
         orderedItems.add(i);
     }
 
-    public void arrivedItem(Item i){
+    public void setArrivedItem(Item i){
         if (orderedItems.contains(i)){
             orderedItems.remove(i);
             arrivedItems.add(i);
@@ -44,6 +44,10 @@ public class Order {
 
     public ArrayList<Item> getOrderedItems() {
         return orderedItems;
+    }
+
+    public ArrayList<Item> getArrivedItems() {
+        return arrivedItems;
     }
 
     public String getJson(){
