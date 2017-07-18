@@ -13,6 +13,8 @@
         android:visibility="gone" />
         <EditText
             android:hint="@string/email"
+            android:drawableStart="@drawable/ic_email"
+            android:drawablePadding="14dp"
             android:layout_weight="1"
             android:textColorHint="@color/lightbrown"
             android:id="@+id/login_mail_text"
@@ -22,6 +24,8 @@
 
         <EditText
             android:hint="@string/password"
+            android:drawableStart="@drawable/ic_textbox_password"
+            android:drawablePadding="14dp"
             android:layout_weight="1"
             android:textColorHint="@color/lightbrown"
             android:id="@+id/login_password_text"

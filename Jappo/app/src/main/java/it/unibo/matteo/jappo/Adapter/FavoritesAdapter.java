@@ -81,7 +81,7 @@ public class FavoritesAdapter extends ArrayAdapter<Item> {
                                 mDataSet.remove(index);
                                 notifyDataSetChanged();
                                 //Changes the order fragment view
-                                if (of != null) of.favoritesChanged();
+                                if (of != null) of.refreshOrder();
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {

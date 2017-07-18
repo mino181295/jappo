@@ -272,7 +272,7 @@ public class OrderFragment extends Fragment {
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                favoritesChanged();
+                                                refreshOrder();
                                             }
                                         }, 400);
                                     }
@@ -293,10 +293,10 @@ public class OrderFragment extends Fragment {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                favoritesChanged();
+                                refreshOrder();
                             }
                         }, 500);
-                        completedFragment.completedChanged();
+                        completedFragment.refreshCompleted();
                         break;
                 }
             }
@@ -323,7 +323,7 @@ public class OrderFragment extends Fragment {
                 .show();
     }
 
-    public void favoritesChanged(){
+    public void refreshOrder(){
         orderAdapter.notifyDataSetChanged();
     }
 

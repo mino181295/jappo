@@ -7,6 +7,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     private Fragment currentFragment;
 
     public TextView mRegisterLabel;
+    public TextView mTitleLabel;
     public Button mMainButton;
 
     @Override
@@ -32,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupView(){
+        mTitleLabel = (TextView) findViewById(R.id.login_title);
+        mTitleLabel.setText("Accedi");
         hideActionBar();
         setupLoginFragment("");
         setupButtons();
@@ -43,7 +48,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mMainButton.setText(R.string.register);
-                mRegisterLabel.setVisibility(View.GONE);
+                mTitleLabel.setText(R.string.register);
+                fadeOutView(mRegisterLabel);
                 reduceBox();
                 setupRegisterFragment();
             }
@@ -100,7 +106,31 @@ public class LoginActivity extends AppCompatActivity {
             params.weight *= 2;
 
             mMainButton.setText(R.string.login);
+            mTitleLabel.setText("Login");
             mRegisterLabel.setVisibility(View.VISIBLE);
         }
     }
+
+    private void fadeOutView(View view) {
+        Animation slideOut = AnimationUtils.loadAnimation(view.getContext(), R.anim.fade_out_animation);
+        final View finalView = view;
+        if (slideOut != null) {
+            slideOut.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    finalView.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+            view.startAnimation(slideOut);
+        }
+    }
+
 }

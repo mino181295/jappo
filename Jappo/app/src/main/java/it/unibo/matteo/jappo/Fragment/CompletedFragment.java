@@ -58,7 +58,7 @@ public class CompletedFragment extends Fragment {
         return v;
     }
 
-    public void completedChanged(){
+    public void refreshCompleted(){
         if (completedAdapter != null) {
             completedAdapter.notifyDataSetChanged();
         }

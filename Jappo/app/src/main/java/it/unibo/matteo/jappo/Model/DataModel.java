@@ -48,6 +48,7 @@ public class DataModel {
     }
 
     public void remove(){
+        spManager.logoutLoggedUser();
         spManager.clearDataModel();
     }
 
