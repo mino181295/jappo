@@ -8,10 +8,12 @@ import java.util.ArrayList;
 
 import it.unibo.matteo.jappo.Model.Item;
 import it.unibo.matteo.jappo.Model.Restaurant;
+import it.unibo.matteo.jappo.Model.Score;
 import it.unibo.matteo.jappo.Model.Type;
 import it.unibo.matteo.jappo.Model.User;
 
 import static android.R.attr.type;
+import static it.unibo.matteo.jappo.R.string.number;
 
 public class JSONHelper {
 
@@ -67,6 +69,24 @@ public class JSONHelper {
             return null;
         } finally {
             return fav;
+        }
+    }
+
+    public static ArrayList<Score> parseHighscores(String response){
+        ArrayList<Score> highscores = new ArrayList<>();
+        try {
+            JSONArray jArray = new JSONArray(response);
+            for(int i = 0; i < jArray.length(); i++){
+                JSONObject jsonObject = jArray.getJSONObject(i);
+                String name = jsonObject.getString("NAME");
+                int value = jsonObject.getInt("SCORE");
+                String date = jsonObject.getString("DATE");
+                highscores.add(new Score(name, value, date));
+            }
+        } catch (JSONException e) {
+            return null;
+        } finally {
+            return highscores;
         }
     }
 

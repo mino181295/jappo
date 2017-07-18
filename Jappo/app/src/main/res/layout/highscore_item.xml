@@ -20,7 +20,7 @@
         android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/completed_name"
+        android:id="@+id/highscore_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
@@ -33,7 +33,7 @@
         android:layout_above="@id/completed_time_label" />
 
     <TextView
-        android:id="@+id/completed_number"
+        android:id="@+id/highscore_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -48,12 +48,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/highscores_position"
-        android:layout_alignStart="@+id/completed_name"
+        android:layout_alignStart="@+id/highscore_name"
         android:gravity="center_vertical"
         android:text="Ultimo ordine" />
 
     <TextView
-        android:id="@+id/completed_time"
+        android:id="@+id/highscores_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/completed_time_label"

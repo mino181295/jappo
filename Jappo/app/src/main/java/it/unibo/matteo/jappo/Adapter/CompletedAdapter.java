@@ -33,7 +33,7 @@ public class CompletedAdapter extends ArrayAdapter<Item> {
 
         final ImageView typeImage = (ImageView) v.findViewById(R.id.completed_image);
 
-        final TextView itemName = (TextView) v.findViewById(R.id.completed_name);
+        final TextView itemName = (TextView) v.findViewById(R.id.highscore_name);
         final TextView itemNumber = (TextView) v.findViewById(R.id.completed_number);
         final TextView timeText = (TextView) v.findViewById(R.id.completed_time);
 

@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import it.unibo.matteo.jappo.Utils.HTTPHelper;
 import it.unibo.matteo.jappo.Utils.JSONHelper;
@@ -123,6 +124,15 @@ public class DataModel {
 
     public ArrayList<Restaurant> getRestaurants(){
         return this.availableRestaurants;
+    }
+
+    public ArrayList<Score> getHighscores(){
+        HashMap<String, String> params = new HashMap<>();
+        params.put(RequestType.getDefault(), RequestType.GET_HIGHSCORES.getValue());
+
+        String response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, params);
+        ArrayList<Score> highscores = JSONHelper.parseHighscores(response);
+        return highscores;
     }
 
     public static DataModel fromJson(String in){

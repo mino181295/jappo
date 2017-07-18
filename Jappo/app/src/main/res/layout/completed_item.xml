@@ -17,7 +17,7 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:id="@+id/completed_name"
+        android:id="@+id/highscore_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/completed_image"
-        android:layout_alignStart="@id/completed_name" />
+        android:layout_alignStart="@id/highscore_name" />
 
     <TextView
         android:id="@+id/completed_time"
