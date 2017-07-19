@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
             @Override
             protected Void doInBackground(Object... voids) {
                 dm.uploadFavorites();
-                dm.save();
                 return null;
             }
         }.execute();
@@ -100,8 +99,15 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
+        dm.load();
+    }
+
+    @Override
+    protected void onPause() {
+        dm.save();
+        super.onPause();
     }
 
     @Override

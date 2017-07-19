@@ -54,10 +54,11 @@ public class SplashScreenActivity extends AppCompatActivity {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
         Animation.AnimationListener fadeInListener = new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {}
+            public void onAnimationStart(Animation animation) {
+                new LoadDataTask().execute((Void) null);
+            }
             @Override
             public void onAnimationEnd(Animation animation) {
-                new LoadDataTask().execute((Void) null);
             }
             @Override
             public void onAnimationRepeat(Animation animation) {}
@@ -68,6 +69,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {}
+
     private void hideActionBar(){
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();

@@ -21,6 +21,8 @@ import javax.net.ssl.HttpsURLConnection;
 public class HTTPHelper {
 
     public static final String REST_BACKEND = "http://jappo.pe.hu/php/bridge.php";
+    public static final String REST_BACKEND_DOWNLOAD = "http://jappo.pe.hu/php/download_image.php";
+    public static final String REST_BACKEND_UPLOAD = "http://jappo.pe.hu/php/upload_image.php";
 
     public static String connectPost(String urlToConnect, HashMap<String, String> params) {
         HttpURLConnection httpUrlConnection = null;
@@ -82,6 +84,22 @@ public class HTTPHelper {
             result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
         }
         return result.toString();
+    }
+
+    public static void uploadImageBase64(String imageName, String imageEncoded){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("encoded_string", imageEncoded);
+        params.put("image_name", imageName);
+
+        connectPost(REST_BACKEND_UPLOAD, params);
+    }
+
+    public static String downloadImageBase64(String imageName){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("image_name", imageName);
+
+        String response = connectPost(REST_BACKEND_DOWNLOAD, params);
+        return response;
     }
 
 }

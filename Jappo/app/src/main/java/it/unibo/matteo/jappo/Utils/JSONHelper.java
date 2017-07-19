@@ -47,8 +47,7 @@ public class JSONHelper {
             int id = jObject.getInt("ID");
             String name = jObject.getString("NAME");
             String email = jObject.getString("MAIL");
-            String imageName = jObject.getString("IMAGE");
-            return new User(id, name, email, imageName);
+            return new User(id, name, email);
         } catch (JSONException e) {
             return null;
         }

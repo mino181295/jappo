@@ -24,7 +24,6 @@ public class LoginActivity extends AppCompatActivity {
     private Fragment currentFragment;
 
     public TextView mRegisterLabel;
-    public TextView mTitleLabel;
     public Button mMainButton;
 
     @Override
@@ -35,8 +34,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupView(){
-        mTitleLabel = (TextView) findViewById(R.id.login_title);
-        mTitleLabel.setText("Accedi");
         hideActionBar();
         setupLoginFragment("");
         setupButtons();
@@ -48,7 +45,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mMainButton.setText(R.string.register);
-                mTitleLabel.setText(R.string.register);
                 fadeOutView(mRegisterLabel);
                 reduceBox();
                 setupRegisterFragment();
@@ -106,7 +102,6 @@ public class LoginActivity extends AppCompatActivity {
             params.weight *= 2;
 
             mMainButton.setText(R.string.login);
-            mTitleLabel.setText("Login");
             mRegisterLabel.setVisibility(View.VISIBLE);
         }
     }

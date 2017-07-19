@@ -10,15 +10,13 @@ public class User {
     private int id;
     private String name;
     private String email;
-    private String imageName;
 
     private ArrayList<Item> favorites;
 
-    public User(int id, String name, String email, String imageName) {
+    public User(int id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.imageName = imageName;
     }
 
     public String getJson(){
@@ -42,16 +40,16 @@ public class User {
         return email;
     }
 
-    public String getImageName() {
-        return imageName;
-    }
-
     public ArrayList<Item> getFavorites() {
         return favorites;
     }
 
     public void setFavorites(ArrayList<Item> favorites) {
         this.favorites = favorites;
+    }
+
+    public String getProfileImage(){
+        return "profile_" + getId() + ".jpg";
     }
 
 
