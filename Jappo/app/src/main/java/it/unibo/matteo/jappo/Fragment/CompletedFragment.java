@@ -2,23 +2,19 @@ package it.unibo.matteo.jappo.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import it.unibo.matteo.jappo.Adapter.CompletedAdapter;
-import it.unibo.matteo.jappo.Adapter.FavoritesAdapter;
 import it.unibo.matteo.jappo.Model.Item;
 import it.unibo.matteo.jappo.Model.Order;
 import it.unibo.matteo.jappo.R;
-
-import static it.unibo.matteo.jappo.R.id.container;
 
 public class CompletedFragment extends Fragment {
 
@@ -56,11 +52,13 @@ public class CompletedFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_completed, container, false);
 
-        mEmptyLabel = (TextView)v.findViewById(R.id.infot_text);
+        mEmptyLabel = (TextView)v.findViewById(R.id.info_text);
 
         mCompletedList = (ListView)v.findViewById(R.id.completed_list);
         completedAdapter = new CompletedAdapter(getContext(), R.layout.completed_item, arrivedItems);
         mCompletedList.setAdapter(completedAdapter);
+
+        refreshCompleted();
 
         return v;
     }
@@ -68,6 +66,13 @@ public class CompletedFragment extends Fragment {
     public void refreshCompleted(){
         if (completedAdapter != null) {
             completedAdapter.notifyDataSetChanged();
+
+            int completedNumber = arrivedItems.size();
+            if (completedNumber != 0){
+                mEmptyLabel.setVisibility(View.INVISIBLE);
+            } else {
+                mEmptyLabel.setVisibility(View.VISIBLE);
+            }
         }
     }
 

@@ -11,12 +11,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import it.unibo.matteo.jappo.Activity.LoginActivity;
 import it.unibo.matteo.jappo.R;
 import it.unibo.matteo.jappo.Utils.HTTPHelper;
 import it.unibo.matteo.jappo.Utils.JSONHelper;
 import it.unibo.matteo.jappo.Utils.RequestType;
+
+import static android.view.View.Z;
+import static it.unibo.matteo.jappo.R.string.email;
 
 public class RegisterFragment extends Fragment {
 
@@ -60,11 +65,15 @@ public class RegisterFragment extends Fragment {
     }
 
     private boolean isEmailValid(String email) {
-        return email.contains("@");
+        Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(email);
+        return matcher.find();
     }
 
     private boolean isPasswordValid(String password) {
-        return password.length() > 4;
+        Pattern VALID_PASSWORD_REGEX = Pattern.compile("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = VALID_PASSWORD_REGEX .matcher(password);
+        return matcher.find();
     }
 
     public void attemptRegistration() {

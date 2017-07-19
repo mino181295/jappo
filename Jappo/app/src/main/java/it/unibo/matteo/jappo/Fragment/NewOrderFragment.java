@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -69,6 +70,27 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
         restaurantAdapter.setDropDownViewResource(R.layout.resaturant_item);
         mSpinner.setAdapter(restaurantAdapter);
         mSpinner.setSelection(0);
+
+        ImageButton mLeftNavigation = (ImageButton) mView.findViewById(R.id.restaurant_left);
+        mLeftNavigation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int count = mSpinner.getCount();
+                int next = (mSpinner.getSelectedItemPosition()) - 1;
+                next = next < 0 ? count-1 : next;
+                mSpinner.setSelection(next);
+            }
+        });
+        ImageButton mRightNavigation = (ImageButton) mView.findViewById(R.id.restaurant_right);
+        mRightNavigation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int count = mSpinner.getCount();
+                int next = (mSpinner.getSelectedItemPosition()) + 1;
+                next = next > count-1 ? 0 : next;
+                mSpinner.setSelection(next);
+            }
+        });
 
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

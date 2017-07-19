@@ -114,12 +114,10 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onAnimationStart(Animation animation) {
                 }
-
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     finalView.setVisibility(View.INVISIBLE);
                 }
-
                 @Override
                 public void onAnimationRepeat(Animation animation) {
                 }

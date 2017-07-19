@@ -34,4 +34,7 @@
     <string name="select_restaurant">Seleziona ristorante</string>
     <string name="restaurants">Ristoranti</string>
     <string name="start_order">Inizia ordine</string>
+
+    <string name="no_item_arrived">Ancora nessun elemento arrivato.</string>
+    <string name="no_item_ordered">Aggiungi un prodotto all\'ordine attuale.</string>
 </resources>

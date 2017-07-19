@@ -11,15 +11,14 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true" />
     <TextView
-        android:paddingEnd="24dp"
-        android:paddingStart="24dp"
-        android:id="@+id/infot_text"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:id="@+id/info_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fontFamily="sans-serif"
         android:gravity="center"
-        android:text="Ancora nessun elemento aggiunto."
+        android:text="@string/no_item_arrived"
         android:textSize="21sp"
         android:visibility="invisible"/>
-
 </RelativeLayout>

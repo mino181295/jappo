@@ -4,14 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import it.unibo.matteo.jappo.Activity.MainActivity;
@@ -21,6 +26,7 @@ import it.unibo.matteo.jappo.R;
 import it.unibo.matteo.jappo.Utils.HTTPHelper;
 import it.unibo.matteo.jappo.Utils.JSONHelper;
 import it.unibo.matteo.jappo.Utils.RequestType;
+import it.unibo.matteo.jappo.Utils.VibratorManager;
 
 public class LoginFragment extends Fragment {
 
@@ -48,7 +54,6 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View  mainView = inflater.inflate(R.layout.fragment_login, container, false);
 
         mPasswordText = (TextView) mainView.findViewById(R.id.login_password_text);
@@ -78,7 +83,6 @@ public class LoginFragment extends Fragment {
         if (mAuthTask != null) {
             return;
         }
-
         // Reset errors.
         mMailText.setError(null);
         mPasswordText.setError(null);
@@ -109,12 +113,8 @@ public class LoginFragment extends Fragment {
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
@@ -165,13 +165,15 @@ public class LoginFragment extends Fragment {
             mAuthTask = null;
             showProgress(false);
             Activity currentActivity = getActivity();
-
             if (success) {
+                VibratorManager.makeBuzz(getContext(), VibratorManager.MEDIUM);
                 startActivity(new Intent(currentActivity.getApplicationContext(), MainActivity.class));
                 currentActivity.finish();
             } else {
-                mPasswordText.setError(getString(R.string.error_incorrect_password));
-                mPasswordText.requestFocus();
+                VibratorManager.makeBuzz(getContext(), VibratorManager.LONG);
+                mPasswordText.setError(getString(R.string.error_invalid_password));
+                mMailText.setError(getString(R.string.error_invalid_email));
+                mMailText.requestFocus();
             }
         }
         @Override

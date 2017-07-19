@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class OrderFragment extends Fragment {
 
     private ActionButton closeButton;
     private ActionButton addItemButton;
+    private TextView mEmptyLabel;
 
     private static ArrayList<Item> orderedItems;
     private OrderAdapter orderAdapter;
@@ -96,6 +98,8 @@ public class OrderFragment extends Fragment {
             }
         });
 
+        mEmptyLabel = (TextView)mView.findViewById(R.id.order_empty_text);
+
         orderList = (ListView) mView.findViewById(R.id.order_list);
         orderAdapter = new OrderAdapter(getContext(), R.layout.order_item, orderedItems);
         orderList.setAdapter(orderAdapter);
@@ -111,6 +115,8 @@ public class OrderFragment extends Fragment {
 
         TextView title = (TextView) mView.findViewById(R.id.title_order);
         title.setText("Ordine al ristorante " + order.getRestourant() );
+
+        refreshOrder();
 
         return mView;
     }
@@ -238,8 +244,7 @@ public class OrderFragment extends Fragment {
                     newItem.setTime(Item.getCurrentTime());
 
                     orderedItems.add(newItem);
-                    orderAdapter.notifyDataSetChanged();
-
+                    refreshOrder();
                     alertDialog.dismiss();
                 } else {
                     mNumber.setError("Inserire numero");
@@ -325,6 +330,12 @@ public class OrderFragment extends Fragment {
 
     public void refreshOrder(){
         orderAdapter.notifyDataSetChanged();
+        int completedNumber = orderedItems.size();
+        if (completedNumber != 0){
+            mEmptyLabel.setVisibility(View.INVISIBLE);
+        } else {
+            mEmptyLabel.setVisibility(View.VISIBLE);
+        }
     }
 
     public void onCloseOrder() {
