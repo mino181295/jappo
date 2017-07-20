@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ import it.unibo.matteo.jappo.Utils.AlarmNotificationReceiver;
 import it.unibo.matteo.jappo.Utils.VibratorManager;
 
 import static android.content.Context.ALARM_SERVICE;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 public class OrderFragment extends Fragment {
 
@@ -79,8 +81,37 @@ public class OrderFragment extends Fragment {
 
     @Override
     public void onDetach() {
-        super.onDetach();
         mListener = null;
+        super.onDetach();
+    }
+
+    @Override
+    public void onStop() {
+        if (orderedItems.size() > 0 && hasToNotificate){
+            startAlarm();
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        stopAlarm();
+    }
+
+    private void startAlarm() {
+        AlarmManager manager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getContext() , AlarmNotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
+        int waitTime = 1000 * 60 * 2;
+        manager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + waitTime, pendingIntent);
+    }
+
+    private void stopAlarm(){
+        AlarmManager manager = (AlarmManager) getContext().getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(getContext(), AlarmNotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
+        manager.cancel(pendingIntent);
     }
 
     @Override
@@ -114,12 +145,11 @@ public class OrderFragment extends Fragment {
         orderAdapter = new OrderAdapter(getContext(), R.layout.order_item, orderedItems);
         orderList.setAdapter(orderAdapter);
 
-        orderList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        orderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 VibratorManager.makeBuzz(getContext(), VibratorManager.SHORT);
                 showDeleteDialog(i);
-                return false;
             }
         });
 
@@ -493,5 +523,6 @@ public class OrderFragment extends Fragment {
     public interface OnOrderInteractionListener {
         void onOrderInteraction();
     }
+
 
 }

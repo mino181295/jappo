@@ -1,6 +1,11 @@
 package it.unibo.matteo.jappo.Adapter;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.provider.MediaStore;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.List;
 
 import it.unibo.matteo.jappo.Model.Item;
@@ -44,6 +51,21 @@ public class CompletedAdapter extends ArrayAdapter<Item> {
         timeText.setText(currentItem.getTimeString());
         itemName.setText(currentItem.getName());
 
+        ImageView cameraButton = (ImageView) v.findViewById(R.id.completed_camera_button);
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "Prova", Toast.LENGTH_LONG).show();
+                startCamera();
+            }
+        });
+
         return v;
+    }
+
+    private void startCamera(){
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Activity currentActivity = (Activity) getContext();
+        currentActivity.startActivityForResult(cameraIntent, 2);
     }
 }

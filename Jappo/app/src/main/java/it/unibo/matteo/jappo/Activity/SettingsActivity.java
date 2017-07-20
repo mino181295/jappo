@@ -1,7 +1,9 @@
 package it.unibo.matteo.jappo.Activity;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -36,11 +38,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import it.unibo.matteo.jappo.Model.DataModel;
 import it.unibo.matteo.jappo.Model.User;
 import it.unibo.matteo.jappo.R;
+import it.unibo.matteo.jappo.Utils.AlarmNotificationReceiver;
 import it.unibo.matteo.jappo.Utils.HTTPHelper;
 import it.unibo.matteo.jappo.Utils.SharedPreferencesManager;
 
 import static it.unibo.matteo.jappo.Utils.HTTPHelper.downloadImageBase64;
 import static java.lang.System.in;
+import static java.security.AccessController.getContext;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -150,6 +154,7 @@ public class SettingsActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        stopAlarm();
         finish();
     }
 
@@ -237,6 +242,13 @@ public class SettingsActivity extends AppCompatActivity {
         } else {
             imageProgressBar.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void stopAlarm(){
+        AlarmManager manager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(this , AlarmNotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        manager.cancel(pendingIntent);
     }
 
 }
