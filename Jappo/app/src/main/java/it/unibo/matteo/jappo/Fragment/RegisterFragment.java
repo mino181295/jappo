@@ -71,7 +71,7 @@ public class RegisterFragment extends Fragment {
     }
 
     private boolean isPasswordValid(String password) {
-        Pattern VALID_PASSWORD_REGEX = Pattern.compile("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})", Pattern.CASE_INSENSITIVE);
+        Pattern VALID_PASSWORD_REGEX = Pattern.compile("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})");
         Matcher matcher = VALID_PASSWORD_REGEX .matcher(password);
         return matcher.find();
     }
@@ -80,7 +80,6 @@ public class RegisterFragment extends Fragment {
         if (mRegisterTask != null) {
             return;
         }
-
         // Reset errors.
         mMailText.setError(null);
         mPasswordText.setError(null);
@@ -96,7 +95,7 @@ public class RegisterFragment extends Fragment {
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordText.setError(getString(R.string.error_invalid_password));
+            mPasswordText.setError(getString(R.string.password_info));
             focusView = mPasswordText;
             cancel = true;
         }
@@ -118,12 +117,8 @@ public class RegisterFragment extends Fragment {
             cancel = true;
         }
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
             showProgress(true);
             mRegisterTask = new RegisterTask(name, email, password);
             mRegisterTask.execute((Void) null);
@@ -166,17 +161,9 @@ public class RegisterFragment extends Fragment {
 
             if (success) {
                 currentLoginActivity.setupLoginFragment(mMailText.getText().toString());
-
-                View v = currentLoginActivity.findViewById(R.id.input_container);
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)v.getLayoutParams();
-                params.weight *= 2;
-                v.setLayoutParams(params);
-
                 currentLoginActivity.mMainButton.setText(R.string.login);
                 currentLoginActivity.mRegisterLabel.setVisibility(View.VISIBLE);
             }
-
-            //TODO Handle insuccess
         }
         @Override
         protected void onCancelled() {

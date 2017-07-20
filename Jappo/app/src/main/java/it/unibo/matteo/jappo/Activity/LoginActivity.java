@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -46,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mMainButton.setText(R.string.register);
                 fadeOutView(mRegisterLabel);
-                reduceBox();
                 setupRegisterFragment();
             }
         });
@@ -62,13 +62,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    public void reduceBox(){
-        View v = findViewById(R.id.input_container);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)v.getLayoutParams();
-        params.weight /= 2;
-        v.setLayoutParams(params);
     }
 
     private void hideActionBar(){
@@ -96,11 +89,6 @@ public class LoginActivity extends AppCompatActivity {
             super.onBackPressed();
         } else if (currentFragment instanceof RegisterFragment){
             setupLoginFragment("");
-
-            View view = findViewById(R.id.input_container);
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)view.getLayoutParams();
-            params.weight *= 2;
-
             mMainButton.setText(R.string.login);
             mRegisterLabel.setVisibility(View.VISIBLE);
         }

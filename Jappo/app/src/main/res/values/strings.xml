@@ -14,6 +14,7 @@
     <string name="register">Registrati</string>
     <string name="create_account">Non hai un account? Clicca qui.</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="password_info">La password deve essere di almeno sei caratteri con numeri, lettere e maiuscole</string>
 
     <string name="error_invalid_password">Password errata</string>
     <string name="error_field_required">Campo richiesto</string>

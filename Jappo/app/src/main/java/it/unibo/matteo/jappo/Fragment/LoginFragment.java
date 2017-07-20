@@ -2,6 +2,7 @@ package it.unibo.matteo.jappo.Fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -13,12 +14,15 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import it.unibo.matteo.jappo.Activity.LoginActivity;
 import it.unibo.matteo.jappo.Activity.MainActivity;
 import it.unibo.matteo.jappo.Model.DataModel;
 import it.unibo.matteo.jappo.Model.User;
@@ -33,8 +37,9 @@ public class LoginFragment extends Fragment {
     private UserLoginTask mAuthTask = null;
     private static String startingMail;
 
-    public TextView mPasswordText;
-    public TextView mMailText;
+    private TextView mPasswordText;
+    private TextView mMailText;
+    private View mainView;
 
     private View mProgressView;
 
@@ -54,7 +59,7 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View  mainView = inflater.inflate(R.layout.fragment_login, container, false);
+        mainView = inflater.inflate(R.layout.fragment_login, container, false);
 
         mPasswordText = (TextView) mainView.findViewById(R.id.login_password_text);
         mMailText = (TextView) mainView.findViewById(R.id.login_mail_text);
@@ -171,6 +176,8 @@ public class LoginFragment extends Fragment {
                 currentActivity.finish();
             } else {
                 VibratorManager.makeBuzz(getContext(), VibratorManager.LONG);
+                Animation shakeAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.shake_animation);
+                mainView.setAnimation(shakeAnimation);
                 mPasswordText.setError(getString(R.string.error_invalid_password));
                 mMailText.setError(getString(R.string.error_invalid_email));
                 mMailText.requestFocus();
