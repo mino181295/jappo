@@ -1,11 +1,8 @@
 package it.unibo.matteo.jappo.Activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -85,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
                 return null;
             }
         }.execute();
+        dm.save();
         super.onStop();
     }
 
@@ -207,4 +205,5 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
             notifyDataSetChanged();
         }
     }
+
 }

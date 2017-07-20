@@ -1,15 +1,18 @@
 package it.unibo.matteo.jappo.Fragment;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,16 +26,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import com.scalified.fab.ActionButton;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.unibo.matteo.jappo.Activity.MainActivity;
 import it.unibo.matteo.jappo.Adapter.OrderAdapter;
+import it.unibo.matteo.jappo.Model.DataModel;
 import it.unibo.matteo.jappo.Model.Item;
 import it.unibo.matteo.jappo.Model.Order;
 import it.unibo.matteo.jappo.Model.Type;
 import it.unibo.matteo.jappo.R;
+import it.unibo.matteo.jappo.Utils.AlarmNotificationReceiver;
 import it.unibo.matteo.jappo.Utils.VibratorManager;
+
+import static android.content.Context.ALARM_SERVICE;
 
 public class OrderFragment extends Fragment {
 
@@ -44,6 +52,8 @@ public class OrderFragment extends Fragment {
     private OrderAdapter orderAdapter;
     private static Order order;
     private ListView orderList;
+
+    boolean hasToNotificate = true;
 
     private OnOrderInteractionListener mListener;
 
@@ -254,6 +264,94 @@ public class OrderFragment extends Fragment {
         alertDialog.show();
     }
 
+    private void showEditDialog(final int position){
+        final Item editItem = orderedItems.get(position);
+
+        final AlertDialog alertDialog;
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View dialogView = inflater.inflate(R.layout.add_item, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(dialogView)
+                .setCancelable(false);
+
+        final CircleImageView typeImage = (CircleImageView) dialogView.findViewById(R.id.completed_image);
+        final TextView mNumber = (TextView) dialogView.findViewById(R.id.add_item_number_text);
+        mNumber.setText(String.valueOf(editItem.getNumber()));
+        final Spinner mSpinner = (Spinner) dialogView.findViewById(R.id.add_type_spinner);
+        final TextView mNameView = (TextView) dialogView.findViewById(R.id.add_item_name_text);
+        mNameView.setText(editItem.getName());
+        mNameView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //Suggestion of the item
+                String actualText = charSequence.toString().toLowerCase();
+                String[] wordsList = actualText.split(" ");
+                List<Type> typeList = Type.getList();
+                for (Type t : typeList) {
+                    String typeName = t.getName().toLowerCase();
+                    for (String aWordsList : wordsList) {
+                        if (typeName.contains(aWordsList)) {
+                            int current = typeList.indexOf(t);
+                            mSpinner.setSelection(current);
+                        }
+                    }
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+        final List<Type> typeList = Type.getList();
+
+        ArrayAdapter<Type> typeAdapter = new ArrayAdapter<>(getContext(), R.layout.type_item,
+                R.id.type_name_text, typeList);
+        typeAdapter.setDropDownViewResource(R.layout.type_item);
+        mSpinner.setAdapter(typeAdapter);
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                typeImage.setImageResource(typeList.get(i).getImage());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        mSpinner.setSelection(editItem.getType().getNumber()-1);
+
+        alertDialog = builder.create();
+        Button mCancel = (Button) dialogView.findViewById(R.id.button_cancel);
+        mCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+        Button mAdd = (Button) dialogView.findViewById(R.id.button_add);
+        mAdd.setText("Modifica");
+        mAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!mNumber.getText().toString().equals("")){
+                    String name = mNameView.getText().toString();
+                    int number = Integer.parseInt(mNumber.getText().toString());
+                    Type selectedItem = (Type) mSpinner.getSelectedItem();
+                    Item editItem = new Item(name, number, selectedItem, order.getRestourant());
+                    editItem.setTime(new Date());
+
+                    orderedItems.set(position, editItem);
+                    refreshOrder();
+                    alertDialog.dismiss();
+                } else {
+                    mNumber.setError("Inserire numero");
+                }
+            }
+        });
+        alertDialog.show();
+    }
+
     private void showDeleteDialog(int i) {
         final int index = i;
 
@@ -288,6 +386,9 @@ public class OrderFragment extends Fragment {
                                 .setCancelable(true)
                                 .show();
 
+                        break;
+                    case 1:
+                        showEditDialog(index);
                         break;
                     case 2:
                         MainActivity activity = (MainActivity)getContext();
@@ -340,6 +441,7 @@ public class OrderFragment extends Fragment {
 
     public void onCloseOrder() {
         if (mListener != null) {
+            hasToNotificate = false;
             mListener.onOrderInteraction();
         }
     }
