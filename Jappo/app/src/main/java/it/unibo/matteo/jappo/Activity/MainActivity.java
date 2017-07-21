@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
     @Override
     public void onNewOrderInteraction(Restaurant r) {
         dm.createOrder(r);
-        //dm.save();
 
         Fragment orderFragment = OrderFragment.newInstance(dm.getOrder());
         mSectionsPagerAdapter.replaceFragment(1,orderFragment);
@@ -122,7 +121,6 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
             @Override
             protected void onPostExecute(Void aVoid) {
                 dm.closeOrder();
-                dm.save();
 
                 Fragment newOrdFragment = NewOrderFragment.newInstance(dm.getRestaurants());
                 mSectionsPagerAdapter.replaceFragment(1, newOrdFragment);
@@ -178,9 +176,7 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
                     || object instanceof CompletedFragment) {
                 return POSITION_NONE;
             } else {
-                // POSITION_NONE means something like: this fragment is no longer valid
-                // triggering the ViewPager to re-build the instance of this fragment.
-                return POSITION_UNCHANGED; // don't force a reload
+                return POSITION_UNCHANGED;
             }
         }
 

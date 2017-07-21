@@ -51,8 +51,9 @@ public class OrderFragment extends Fragment {
     private TextView mEmptyLabel;
 
     private static ArrayList<Item> orderedItems;
-    private OrderAdapter orderAdapter;
     private static Order order;
+
+    private OrderAdapter orderAdapter;
     private ListView orderList;
 
     boolean hasToNotificate = true;
