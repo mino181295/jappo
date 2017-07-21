@@ -89,6 +89,13 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
     protected void onResume() {
         super.onResume();
         dm.load();
+        if (dm.hasOpenOrder()){
+            Fragment orderFragment = OrderFragment.newInstance(dm.getOrder());
+            mSectionsPagerAdapter.replaceFragment(1,orderFragment);
+
+            Fragment completedFragment = CompletedFragment.newInstance(dm.getOrder());
+            mSectionsPagerAdapter.replaceFragment(2, completedFragment);
+        }
     }
 
     @Override
