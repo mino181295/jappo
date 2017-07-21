@@ -38,6 +38,8 @@ import static it.unibo.matteo.jappo.R.id.map;
 
 public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
 
+    public static final int LOCATION_REQUEST = 7652;
+
     private GoogleMap googleMap;
     private Spinner mSpinner;
     private View mView;
@@ -150,10 +152,13 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 999);
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
         }
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED){
             googleMap.setMyLocationEnabled(true);
         } else {
             googleMap.setMyLocationEnabled(false);
@@ -190,12 +195,6 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-    }
 
     public void onButtonPressed(Restaurant r) {
         if (mListener != null) {

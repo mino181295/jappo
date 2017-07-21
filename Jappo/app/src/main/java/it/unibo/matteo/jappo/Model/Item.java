@@ -1,5 +1,7 @@
 package it.unibo.matteo.jappo.Model;
 
+import android.graphics.Bitmap;
+
 import com.google.gson.Gson;
 
 import java.text.DateFormat;
@@ -7,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.TimeZone;
 
 public class Item {
@@ -18,12 +21,14 @@ public class Item {
 
     private boolean isFavorite;
     private Date time;
+    private Bitmap capturedPic;
 
     public Item(String name, int number, Type type, Restaurant restaurant) {
         this.name = name;
         this.number = number;
         this.type = type;
         this.restaurant = restaurant;
+        this.capturedPic = null;
     }
 
     public String getJson(){
@@ -81,6 +86,14 @@ public class Item {
 
     public boolean isFavorite(List<Item> fav) {
         return fav.contains(this);
+    }
+
+    public Bitmap getCapturedPic() {
+        return capturedPic;
+    }
+
+    public void setCapturedPic(Bitmap capturedPic) {
+        this.capturedPic = capturedPic;
     }
 
     @Override

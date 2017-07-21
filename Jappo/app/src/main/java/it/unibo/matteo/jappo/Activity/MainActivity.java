@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
                 return null;
             }
         }.execute();
-        dm.save();
         super.onStop();
     }
 
@@ -101,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
     @Override
     public void onNewOrderInteraction(Restaurant r) {
         dm.createOrder(r);
-        dm.save();
+        //dm.save();
 
         Fragment orderFragment = OrderFragment.newInstance(dm.getOrder());
         mSectionsPagerAdapter.replaceFragment(1,orderFragment);
