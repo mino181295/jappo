@@ -23,6 +23,9 @@ import it.unibo.matteo.jappo.Utils.RequestType;
 import static android.view.View.Z;
 import static it.unibo.matteo.jappo.R.string.email;
 
+/**
+ * Fragment that holds the Registration logic of a new {@link it.unibo.matteo.jappo.Model.User}
+ */
 public class RegisterFragment extends Fragment {
 
     private RegisterTask mRegisterTask = null;
@@ -53,6 +56,10 @@ public class RegisterFragment extends Fragment {
         return mainView;
     }
 
+    /**
+     * Method that sets the {@link android.widget.ProgressBar} while the user is waiting
+     * @param show
+     */
     private void showProgress(final boolean show) {
         mNameText.setVisibility(show ? View.GONE : View.VISIBLE);
         mMailText.setVisibility(show ? View.GONE : View.VISIBLE);
@@ -60,16 +67,31 @@ public class RegisterFragment extends Fragment {
         mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
+    /**
+     * Function that checks if the user name is valid
+     * @param name
+     * @return
+     */
     private boolean isNameValid(String name) {
         return name.length() > 0;
     }
 
+    /**
+     * Function that uses a {@link Pattern} to check the email
+     * @param email
+     * @return
+     */
     private boolean isEmailValid(String email) {
         Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(email);
         return matcher.find();
     }
 
+    /**
+     * Function that uses a {@link Pattern} to check the password
+     * @param password
+     * @return
+     */
     private boolean isPasswordValid(String password) {
         Pattern VALID_PASSWORD_REGEX = Pattern.compile("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})");
         Matcher matcher = VALID_PASSWORD_REGEX .matcher(password);
@@ -91,6 +113,7 @@ public class RegisterFragment extends Fragment {
         boolean cancel = false;
         View focusView = null;
 
+        /* Check that all the fields are filled */
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordText.setError(getString(R.string.password_info));
             focusView = mPasswordText;
@@ -121,6 +144,9 @@ public class RegisterFragment extends Fragment {
         }
     }
 
+    /**
+     * {@link AsyncTask} that exectutes the {@link it.unibo.matteo.jappo.Model.User} register on the server
+     */
     private class RegisterTask extends AsyncTask<Void, Void, Boolean> {
 
         private final RequestType requestType = RequestType.REGISTER;

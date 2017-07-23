@@ -33,6 +33,10 @@ import it.unibo.matteo.jappo.Utils.JSONHelper;
 import it.unibo.matteo.jappo.Utils.RequestType;
 import it.unibo.matteo.jappo.Utils.VibratorManager;
 
+/**
+ * Fragment that contains the login logic of the application.
+ * It has an {@link AsyncTask} that executes the query to the database
+ */
 public class LoginFragment extends Fragment {
 
     private UserLoginTask mAuthTask = null;
@@ -62,6 +66,7 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         mainView = inflater.inflate(R.layout.fragment_login, container, false);
 
+        /* Components setup */
         mPasswordText = (TextView) mainView.findViewById(R.id.login_password_text);
         mMailText = (TextView) mainView.findViewById(R.id.login_mail_text);
         mMailText.setText(startingMail);
@@ -71,16 +76,30 @@ public class LoginFragment extends Fragment {
         return mainView;
     }
 
+    /**
+     * Method that shows the progress bar when the user is waiting the database to respond
+     * @param show
+     */
     private void showProgress(final boolean show) {
         mMailText.setVisibility(show ? View.GONE : View.VISIBLE);
         mPasswordText.setVisibility(show ? View.GONE : View.VISIBLE);
         mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
+    /**
+     * Email check logic
+     * @param email
+     * @return
+     */
     private boolean isEmailValid(String email) {
         return email.contains("@");
     }
 
+    /**
+     * Password check logic
+     * @param password
+     * @return
+     */
     private boolean isPasswordValid(String password) {
         return password.length() > 4;
     }
@@ -98,12 +117,12 @@ public class LoginFragment extends Fragment {
         boolean cancel = false;
         View focusView = null;
 
+        /* Check of every single field */
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordText.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordText;
             cancel = true;
         }
-
         if (TextUtils.isEmpty(email)) {
             mMailText.setError(getString(R.string.error_field_required));
             focusView = mMailText;
@@ -113,7 +132,7 @@ public class LoginFragment extends Fragment {
             focusView = mMailText;
             cancel = true;
         }
-
+        /* Starts the login task if every field is correctly filled */
         if (cancel) {
             focusView.requestFocus();
         } else {
@@ -123,6 +142,9 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    /**
+     * Login task that contain the asynchronous request
+     */
     private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final RequestType requestType = RequestType.LOGIN;
@@ -146,14 +168,17 @@ public class LoginFragment extends Fragment {
             String response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, loginParams);
             boolean isCorrect = JSONHelper.parseResponse(response, requestType);
 
+            /* Database response */
             if (isCorrect) {
                 loginParams = new HashMap<>();
                 loginParams.put(RequestType.getDefault(), RequestType.GET_USER.getValue());
                 loginParams.put("email", mEmail);
                 loginParams.put("password", mPassword);
 
+                /* Post request to the server */
                 response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, loginParams);
 
+                /* DataModel Load */
                 DataModel dm = new DataModel(getContext());
                 User loggedUser = JSONHelper.parseUser(response);
                 dm.login(loggedUser);

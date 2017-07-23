@@ -21,6 +21,12 @@ public class HTTPHelper {
     public static final String REST_BACKEND_UPLOAD = "http://jappo.pe.hu/php/upload_image.php";
     public static final String REST_BACKEND_DOWNLOAD = "http://jappo.pe.hu/php/download_image.php";
 
+    /**
+     * Post request to a specific url with an {@link HashMap} of parameters.
+     * @param urlToConnect url where the function makes the request
+     * @param params params passed in the post request
+     * @return the string response of the server
+     */
     public static String connectPost(String urlToConnect, HashMap<String, String> params) {
         HttpURLConnection httpUrlConnection = null;
         StringBuilder response = new StringBuilder();
@@ -82,6 +88,11 @@ public class HTTPHelper {
         return result.toString();
     }
 
+    /**
+     * Post upload of an encoded Image {@link android.graphics.Bitmap} in {@link android.util.Base64}
+     * @param imageName name of the image in the server
+     * @param imageEncoded string stream of the {@link android.graphics.Bitmap} encoded
+     */
     public static void uploadImageBase64(String imageName, String imageEncoded){
         HashMap<String, String> params = new HashMap<>();
         params.put("encoded_string", imageEncoded);
@@ -90,6 +101,11 @@ public class HTTPHelper {
         connectPost(REST_BACKEND_UPLOAD, params);
     }
 
+    /**
+     * Function where I can download the image from the server with a set name
+     * @param imageName name of the image in the server
+     * @return
+     */
     public static String downloadImageBase64(String imageName){
         HashMap<String, String> params = new HashMap<>();
         params.put("image_name", imageName);

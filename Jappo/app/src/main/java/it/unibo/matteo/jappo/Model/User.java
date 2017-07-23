@@ -3,7 +3,9 @@ package it.unibo.matteo.jappo.Model;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 
-
+/**
+ * Model item that models the user using the application
+ */
 public class User {
 
     private int id;

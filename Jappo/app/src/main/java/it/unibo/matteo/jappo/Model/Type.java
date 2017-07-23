@@ -7,6 +7,9 @@ import java.util.List;
 
 import it.unibo.matteo.jappo.R;
 
+/**
+ * Enum model Item that represent the {@link Item}
+ */
 public enum Type {
 
     @SerializedName("1") TEMPURA(1, "Tempura", R.drawable.type_1),

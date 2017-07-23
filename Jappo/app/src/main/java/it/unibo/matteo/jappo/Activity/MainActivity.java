@@ -24,6 +24,10 @@ import it.unibo.matteo.jappo.Model.Restaurant;
 import it.unibo.matteo.jappo.R;
 import it.unibo.matteo.jappo.Utils.MediaHelper;
 
+/**
+ * Activity that is showed off when the {@link LoginActivity} has been completed and finished.
+ * In this {@link android.app.Activity} is contained all the logic of the application.
+ */
 public class MainActivity extends AppCompatActivity implements NewOrderFragment.OnNewOrderInteractionListener,
         OrderFragment.OnOrderInteractionListener{
 
@@ -39,11 +43,12 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
 
         dataModel = new DataModel(getApplicationContext());
         dataModel.load();
-
+        /* Setting up the custom Action Bar */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        /* Setting up the two buttons in the Action Bar */
         ImageButton settingsToolbarButton = (ImageButton) findViewById(R.id.settings_button);
         settingsToolbarButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             }
         });
-
         ImageButton highscoresToolbarButton = (ImageButton) findViewById(R.id.trophy_button);
         highscoresToolbarButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
             }
         });
 
+        /* Setting up the three main Pages (Fragment) of the MainActivity */
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -67,12 +72,12 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
         mViewPager.setCurrentItem(1);
     }
 
     @Override
     protected void onStop() {
+        /* Uploading the new Favorites*/
         new AsyncTask<Object, Object, Void>() {
             @Override
             protected Void doInBackground(Object... voids) {
@@ -85,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
 
     @Override
     protected void onResume() {
+        /* Resuming the context and the business logic */
         super.onResume();
         dataModel.load();
         if (dataModel.hasOpenOrder()){
@@ -98,10 +104,12 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
 
     @Override
     protected void onPause() {
+        /* Saving the business logic in the DataModel object */
         dataModel.save();
         super.onPause();
     }
 
+    /* Override of the 2 Fragment Listeners Interaction Methods */
     @Override
     public void onOrderInteraction() {
         final int scorePoints = dataModel.getOrder().getArrived().size();
@@ -137,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
         mSectionsPagerAdapter.replaceFragment(2, completedFragment);
     }
 
+    /* Methods for the fragment manipulation in the Pager */
     public Fragment getViewerFragment(int i){
         return  mSectionsPagerAdapter.getItem(i);
     }
@@ -145,6 +154,9 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
         mViewPager.setCurrentItem(i);
     }
 
+    /**
+     * {@link FragmentStatePagerAdapter} that manages the three main fragments.
+     */
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
         Fragment [] mainViewFragments;
         FragmentManager fm;
@@ -175,9 +187,9 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
             return mainViewFragments[position];
         }
 
+        /* Override that permits to refresh the fragments on change */
         @Override
         public int getItemPosition(Object object) {
-            // this method will be called for every fragment in the ViewPager
             if (object instanceof NewOrderFragment || object instanceof OrderFragment
                     || object instanceof CompletedFragment) {
                 return POSITION_NONE;
@@ -201,6 +213,11 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
             return null;
         }
 
+        /**
+         * Method tha can replace one fragment inside the Adapter and can refresh the data
+         * @param i index of the fragment.
+         * @param f new {@link Fragment} that is inserted inside the adapter.
+         */
         public void replaceFragment(int i, Fragment f) {
             mainViewFragments[i] = f;
             notifyDataSetChanged();

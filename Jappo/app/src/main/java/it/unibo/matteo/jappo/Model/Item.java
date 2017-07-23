@@ -1,7 +1,5 @@
 package it.unibo.matteo.jappo.Model;
 
-import android.graphics.Bitmap;
-
 import com.google.gson.Gson;
 
 import java.text.DateFormat;
@@ -11,6 +9,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+/**
+ * Model item that represents the core element of the {@link Order}
+ */
 public class Item {
 
     private String name;
@@ -54,10 +55,6 @@ public class Item {
 
     public void setTime(Date time) {
         this.time = time;
-    }
-
-    public Date getTime() {
-        return this.time;
     }
 
     public String getTimeString() {

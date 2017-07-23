@@ -20,6 +20,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
         final String title = context.getString(R.string.notification_title);
         final String subtitle = context.getString(R.string.notification_subtitle);
 
+        /* Notification build phase */
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)

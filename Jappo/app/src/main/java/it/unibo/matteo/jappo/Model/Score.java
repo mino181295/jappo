@@ -6,6 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+/**
+ * Model item for a score value with a {@link Date}, a name and a score value.
+ */
 public class Score {
 
     private String name;
@@ -35,11 +38,11 @@ public class Score {
     public String getDate() {
         Date nowDate = new Date();
         long secondsDifference = (nowDate.getTime() - date.getTime()) / 1000;
+        /* Data representation */
         if (secondsDifference < 60 * 60 * 24) {
             return new SimpleDateFormat("HH:mm").format(date);
         } else {
             return new SimpleDateFormat("dd-MM-yy").format(date);
-
         }
     }
 }

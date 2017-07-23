@@ -17,6 +17,9 @@ import it.unibo.matteo.jappo.Model.DataModel;
 import it.unibo.matteo.jappo.Model.Item;
 import it.unibo.matteo.jappo.R;
 
+/**
+ * Fragment that shows the Favourites {@link Item} list
+ */
 public class FavoritesFragment extends Fragment {
 
     private static ArrayList<Item> favorites;
@@ -42,6 +45,7 @@ public class FavoritesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_favorites, container, false);
 
+        /* Adapter setup */
         mFavoriteList = (ListView)v.findViewById(R.id.favourite_list);
         favoritesAdapter = new FavoritesAdapter(getContext(), R.layout.favorite_item, favorites);
         mFavoriteList.setAdapter(favoritesAdapter);
@@ -49,16 +53,16 @@ public class FavoritesFragment extends Fragment {
         return v;
     }
 
-    public void addItemToFavourites(Item i){
-        i.setFavorite(true);
-        favorites.add(i);
+    public void addItemToFavourites(Item item){
+        item.setFavorite(true);
+        favorites.add(item);
         favoritesAdapter.notifyDataSetChanged();
 
     }
 
-    public void removeItemFromFavourites(Item i){
-        i.setFavorite(false);
-        favorites.remove(i);
+    public void removeItemFromFavourites(Item item){
+        item.setFavorite(false);
+        favorites.remove(item);
         favoritesAdapter.notifyDataSetChanged();
     }
 

@@ -4,22 +4,24 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-
+/**
+ * Model class that represents the order with the list of the arrived {@link Item} and the ordered {@link Item}
+ */
 public class Order {
 
     ArrayList<Item> ordered;
     ArrayList<Item> arrived;
 
-    Restaurant restourant;
+    Restaurant restaurant;
 
     public Order(Restaurant r) {
         this.ordered = new ArrayList<>();
         this.arrived = new ArrayList<>();
-        this.restourant = r;
+        this.restaurant = r;
     }
 
     public Restaurant getRestaurant() {
-        return restourant;
+        return restaurant;
     }
 
     public void setArrivedItem(Item i){

@@ -34,6 +34,9 @@ import it.unibo.matteo.jappo.R;
 
 import static it.unibo.matteo.jappo.R.id.map;
 
+/**
+ * Fragment that set up a new {@link it.unibo.matteo.jappo.Model.Order} in a specific {@link Restaurant}
+ */
 public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
 
     public static final int LOCATION_REQUEST = 7652;
@@ -66,12 +69,14 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
         mView = inflater.inflate(R.layout.fragment_new_order, container, false);
         mSpinner = (Spinner) mView.findViewById(R.id.restaurant_spinner);
 
+        /* Spinner setup with the model restaurants */
         ArrayAdapter<Restaurant> restaurantAdapter = new ArrayAdapter<>(getContext(), R.layout.resaturant_item,
                 R.id.restaurant_name_text, restaurants);
         restaurantAdapter.setDropDownViewResource(R.layout.resaturant_item);
         mSpinner.setAdapter(restaurantAdapter);
         mSpinner.setSelection(0);
 
+        /* Left and Right navigation buttons */
         ImageButton mLeftNavigation = (ImageButton) mView.findViewById(R.id.restaurant_left);
         mLeftNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +97,7 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
                 mSpinner.setSelection(next);
             }
         });
-
+        /* Item selection listener setup */
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -114,7 +119,6 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
                 onButtonPressed(r);
             }
         });
-
 
         return mView;
     }
@@ -147,6 +151,7 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
         mListener = null;
     }
 
+    /* Method that is triggered when the GMap is ready to use from the API */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
@@ -164,13 +169,17 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
         setMapLocation((Restaurant) mSpinner.getSelectedItem());
     }
 
+    /**
+     * Sets the {@link GoogleMap} focus on a {@link MarkerOptions} with a targer {@link Restaurant}
+     * @param r the restaurant target of the animation movement of the {@link GoogleMap}
+     */
     public void setMapLocation(Restaurant r){
         if (googleMap != null){
             LatLng coordinates = r.getCoordinates();
             MarkerOptions mMarker = new MarkerOptions().position(coordinates)
                     .title(r.getName())
                     .snippet(r.getAddress());
-
+            /* Clears the previous targets */
             googleMap.clear();
 
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
@@ -193,13 +202,15 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-
     public void onButtonPressed(Restaurant r) {
         if (mListener != null) {
             mListener.onNewOrderInteraction(r);
         }
     }
 
+    /**
+     * Interface that permits the interaction with the attached {@link ActivityCompat}
+     */
     public interface OnNewOrderInteractionListener {
         void onNewOrderInteraction(Restaurant r);
     }

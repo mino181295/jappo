@@ -55,7 +55,7 @@ public class FavoritesAdapter extends ArrayAdapter<Item> {
         final Item item = getItem(position);
 
         mTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(), item.getType().getImage()));
-        ImageButton deleteItem = (ImageButton) v.findViewById(R.id.item_delete);
+        ImageButton mDeleteItem = (ImageButton) v.findViewById(R.id.item_delete);
         mItemNumber.setText(String.valueOf(item.getNumber()));
 
         if (item.getRestaurant() != null){
@@ -64,12 +64,13 @@ public class FavoritesAdapter extends ArrayAdapter<Item> {
             mTypeName.setText(item.getType().getName());
         }
         mItemName.setText(item.getName());
-        deleteItem.setTag(position);
+        mDeleteItem.setTag(position);
 
         mCurrentFragment = mainActivity.getViewerFragment(1);
         final OrderFragment of = (mCurrentFragment instanceof OrderFragment) ? (OrderFragment) mCurrentFragment : null;
 
-        deleteItem.setOnClickListener(new View.OnClickListener() {
+        /* Delete icon listener */
+        mDeleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final int current = (Integer) view.getTag();

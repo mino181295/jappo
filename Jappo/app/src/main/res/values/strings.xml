@@ -26,10 +26,12 @@
     <string name="action_highscores">Highscores</string>
 
     <string name="add_element">Aggiungi elemento</string>
+    <string name="edit">Modifica</string>
     <string name="add_name">Nome</string>
     <string name="add">Aggiungi</string>
     <string name="cancel">Annulla</string>
     <string name="number">Numero</string>
+    <string name="insert_number">Inserire numero</string>
 
 
     <string name="select_restaurant">Seleziona ristorante</string>
@@ -40,13 +42,27 @@
     <string name="no_item_ordered">Aggiungi un prodotto all\'ordine attuale.</string>
 
     <string name="delete">Elimina</string>
+    <string name="logout">Logout</string>
     <string name="confirm_delete">Sei sicuro di voler eliminare</string>
+    <string name="confirm_logout">Sei sicuro di voler effettuare logout?</string>
+    <string name="show">Visualizza</string>
+    <string name="added_favorites">Aggiunto ai preferiti</string>
     <string name="from_favourites">dai preferiti?</string>
     <string name="yes">Sì</string>
     <string name="no">No</string>
 
     <string name="notification_title">Hai prodotti ordinati</string>
     <string name="notification_subtitle">E\' arrivato qualche prodotto?</string>
+
+    <string name="delete_item">Elimina elemento</string>
+    <string name="edit_item">Modifica elemento</string>
+    <string name="mark_arrived">Segna come arrivato</string>
+
+    <string name="delete_question">Vuoi veramente eliminare </string>
+    <string name="from_current_order"> dal corrente ordine?</string>
+
+    <string name="close_order">Chiudi ordine</string>
+    <string name="close_question">Vuoi veramente chiudere l\'ordine di </string>
 
 
 </resources>

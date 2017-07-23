@@ -1,10 +1,8 @@
 package it.unibo.matteo.jappo.Activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.animation.Animation;
@@ -12,24 +10,18 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import java.util.HashMap;
-
 import it.unibo.matteo.jappo.Model.DataModel;
-import it.unibo.matteo.jappo.Model.User;
 import it.unibo.matteo.jappo.R;
-import it.unibo.matteo.jappo.Utils.HTTPHelper;
-import it.unibo.matteo.jappo.Utils.JSONHelper;
-import it.unibo.matteo.jappo.Utils.RequestType;
-import it.unibo.matteo.jappo.Utils.SharedPreferencesManager;
 
-import static it.unibo.matteo.jappo.R.string.email;
-
+/**
+ * Splash screen to load {@link DataModel} if present or to redirect to {@link LoginActivity}
+ */
 public class SplashScreenActivity extends AppCompatActivity {
 
-    ImageView imageView;
-    ProgressBar progressBar;
+    ImageView mImageView;
+    ProgressBar mProgressBar;
 
-    DataModel dm;
+    DataModel dataModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +31,20 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         hideActionBar();
 
-        dm = new DataModel(getApplicationContext());
+        dataModel = new DataModel(getApplicationContext());
 
-        imageView = (ImageView) findViewById(R.id.image_logo);
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        mImageView = (ImageView) findViewById(R.id.image_logo);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         Animation animation = getAnimationInstance();
-        imageView.setAnimation(animation);
+        mImageView.setAnimation(animation);
         animation.start();
     }
 
+    /**
+     * Fade in animation setup
+     * @return Animation instance that fades in
+     */
     private Animation getAnimationInstance(){
         /* Animation setup */
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
@@ -75,13 +71,14 @@ public class SplashScreenActivity extends AppCompatActivity {
         actionBar.hide();
     }
 
+    /**
+     * Task that load the {@link DataModel} with an {@link AsyncTask}
+     */
     public class LoadDataTask extends AsyncTask<Void, Void, Boolean>{
-
         LoadDataTask() {}
-
         @Override
         protected Boolean doInBackground(Void... params) {
-            boolean logged = dm.isLoggedIn();
+            boolean logged = dataModel.isLoggedIn();
             if (logged) {
                 DataModel dm = new DataModel(getApplicationContext());
                 dm.load();

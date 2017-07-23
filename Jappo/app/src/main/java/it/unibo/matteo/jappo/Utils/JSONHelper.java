@@ -17,19 +17,25 @@ import static it.unibo.matteo.jappo.R.string.number;
 
 public class JSONHelper {
 
+    /**
+     * Function that parse a response and check if is correct or not
+     * @param response
+     * @param requestType
+     * @return
+     */
     public static boolean parseResponse(String response, RequestType requestType) {
-        JSONObject jObject;
+        JSONObject object;
         boolean isCorrect = false;
 
         try {
             switch (requestType) {
                 case LOGIN:
-                    jObject = new JSONObject(response);
-                    isCorrect = jObject.getBoolean("success");
+                    object = new JSONObject(response);
+                    isCorrect = object.getBoolean("success");
                     return isCorrect;
                 case REGISTER:
-                    jObject = new JSONObject(response);
-                    isCorrect = jObject.getBoolean("success");
+                    object = new JSONObject(response);
+                    isCorrect = object.getBoolean("success");
                     return isCorrect;
                 default:
                     break;
@@ -41,45 +47,60 @@ public class JSONHelper {
         return isCorrect;
     }
 
+    /**
+     * Method that parse a {@link User}
+     * @param response {@link String} of the response from the server
+     * @return the object of the result user
+     */
     public static User parseUser(String response){
         try {
-            JSONObject jObject = new JSONObject(response);
-            int id = jObject.getInt("ID");
-            String name = jObject.getString("NAME");
-            String email = jObject.getString("MAIL");
+            JSONObject object = new JSONObject(response);
+            int id = object.getInt("ID");
+            String name = object.getString("NAME");
+            String email = object.getString("MAIL");
             return new User(id, name, email);
         } catch (JSONException e) {
             return null;
         }
     }
 
+    /**
+     * Parse all the favourites of the application registered {@link User} on the server
+     * @param response
+     * @return
+     */
     public static ArrayList<Item> parseFavorites(String response){
-        ArrayList<Item> fav = new ArrayList<>();
+        ArrayList<Item> favorites = new ArrayList<>();
         try {
-            JSONArray jArray = new JSONArray(response);
-            for(int i = 0; i < jArray.length(); i++){
-                JSONObject jsonObject = jArray.getJSONObject(i);
-                String name = jsonObject.getString("NAME");
-                int number = jsonObject.getInt("NUMBER");
-                int type = jsonObject.getInt("TYPE");
-                fav.add(new Item(name,number, Type.fromNumber(type),null));
+            JSONArray array = new JSONArray(response);
+            for(int i = 0; i < array.length(); i++){
+                JSONObject object = array.getJSONObject(i);
+                String name = object.getString("NAME");
+                int number = object.getInt("NUMBER");
+                int type = object.getInt("TYPE");
+                favorites.add(new Item(name,number, Type.fromNumber(type),null));
             }
         } catch (JSONException e) {
             return null;
         } finally {
-            return fav;
+            return favorites;
         }
     }
 
+    /**
+     * Parse all the highscores and return an array of {@link Score}
+     * @param response
+     * @return
+     */
     public static ArrayList<Score> parseHighscores(String response){
         ArrayList<Score> highscores = new ArrayList<>();
         try {
-            JSONArray jArray = new JSONArray(response);
-            for(int i = 0; i < jArray.length(); i++){
-                JSONObject jsonObject = jArray.getJSONObject(i);
+            JSONArray array = new JSONArray(response);
+            for(int i = 0; i < array.length(); i++){
+                JSONObject jsonObject = array.getJSONObject(i);
                 String name = jsonObject.getString("NAME");
-                int value = jsonObject.getInt("SCORE");
                 String date = jsonObject.getString("DATE");
+                int value = jsonObject.getInt("SCORE");
                 highscores.add(new Score(name, value, date));
             }
         } catch (JSONException e) {
@@ -89,17 +110,22 @@ public class JSONHelper {
         }
     }
 
+    /**
+     * Parse all the {@link Restaurant} in the backend database
+     * @param response
+     * @return
+     */
     public static ArrayList<Restaurant> parseRestaurants(String response){
         ArrayList<Restaurant> restaurants = new ArrayList<>();
         try {
-            JSONArray jArray = new JSONArray(response);
-            for(int i = 0; i < jArray.length(); i++){
-                JSONObject jsonObject = jArray.getJSONObject(i);
-                String name = jsonObject.getString("NAME");
-                String address = jsonObject.getString("ADDRESS");
-                String city = jsonObject.getString("CITY");
-                float lat = Float.parseFloat(jsonObject.getString("LATITUDE"));
-                float log = Float.parseFloat(jsonObject.getString("LONGITUDE"));
+            JSONArray array = new JSONArray(response);
+            for(int i = 0; i < array.length(); i++){
+                JSONObject object = array.getJSONObject(i);
+                String address = object.getString("ADDRESS");
+                String name = object.getString("NAME");
+                String city = object.getString("CITY");
+                float lat = Float.parseFloat(object.getString("LATITUDE"));
+                float log = Float.parseFloat(object.getString("LONGITUDE"));
                 restaurants.add(new Restaurant(name, address, city, lat, log));
             }
         } catch (JSONException e) {

@@ -11,6 +11,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * Class that writes in the phone the temp image of the completed {@link it.unibo.matteo.jappo.Model.Item}
+ */
 public class MediaHelper {
 
     public static final String TEMP_FOLDER = "tmp";

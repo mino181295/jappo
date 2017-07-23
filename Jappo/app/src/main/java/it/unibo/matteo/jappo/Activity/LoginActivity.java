@@ -16,6 +16,11 @@ import it.unibo.matteo.jappo.Fragment.LoginFragment;
 import it.unibo.matteo.jappo.R;
 import it.unibo.matteo.jappo.Fragment.RegisterFragment;
 
+/**
+ * Activity divided in 2 {@link Fragment} that can be {@link LoginFragment} or
+ * {@link RegisterFragment}. In this activity you can access the basic functionality of logging in
+ * or registering a new User.
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private RegisterFragment mRegisterFragment;
@@ -32,12 +37,18 @@ public class LoginActivity extends AppCompatActivity {
         setupView();
     }
 
+    /**
+     * Method that setups the User Interface of the {@link android.app.Activity}.
+     */
     private void setupView(){
         setupLoginFragment("");
         hideActionBar();
         setupButtons();
     }
 
+    /**
+     * Method that setups the buttons and their {@link android.view.View.OnClickListener}
+     */
     private void setupButtons(){
         mRegisterLabel = (TextView) findViewById(R.id.register_label);
         mRegisterLabel.setOnClickListener(new TextView.OnClickListener() {
@@ -62,11 +73,18 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Hides the {@link ActionBar}
+     */
     private void hideActionBar(){
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
     }
 
+    /**
+     * Setup the {@link LoginFragment}
+     * @param mail is the initial mail in the {@link android.widget.EditText}
+     */
     public void setupLoginFragment(String mail){
         mCurrentFragment = mLoginFragment = LoginFragment.newInstance(mail);
         FragmentManager manager = getSupportFragmentManager();
@@ -74,6 +92,9 @@ public class LoginActivity extends AppCompatActivity {
         transaction.replace(R.id.input_container, mLoginFragment).commit();
     }
 
+    /**
+     * Setup the {@link RegisterFragment}
+     */
     public void setupRegisterFragment(){
         mCurrentFragment = mRegisterFragment = RegisterFragment.newInstance();
         FragmentManager manager = getSupportFragmentManager();
@@ -92,6 +113,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Animation of the Fade Out to a target {@link View}
+     * @param view target {@link View} that has to be animated
+     */
     private void fadeOutView(View view) {
         Animation slideOut = AnimationUtils.loadAnimation(view.getContext(), R.anim.fade_out_animation);
         final View finalView = view;

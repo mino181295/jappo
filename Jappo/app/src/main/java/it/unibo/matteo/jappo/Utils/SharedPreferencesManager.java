@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import it.unibo.matteo.jappo.Model.DataModel;
 import it.unibo.matteo.jappo.Model.User;
 
+/**
+ * Class the manages the {@link SharedPreferences} and holds all the references saved
+ */
 public class SharedPreferencesManager {
 
     public static String sharedPreferencesName;
@@ -18,9 +21,10 @@ public class SharedPreferencesManager {
     public static final String USER = "USER";
 
     public SharedPreferencesManager(String name, Context context) {
-        this.sharedPreferencesName = name;
+        sharedPreferencesName = name;
         this.mSP = context.getSharedPreferences(name, Context.MODE_PRIVATE);
         this.mEditor = mSP.edit();
+        this.mEditor.apply();
     }
 
     public boolean isLoggedIn(){

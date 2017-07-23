@@ -26,6 +26,9 @@ import it.unibo.matteo.jappo.Utils.MediaHelper;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * Fragment that shows the completed products that arrived.
+ */
 public class CompletedFragment extends Fragment {
 
     private CompletedAdapter completed;
@@ -63,7 +66,7 @@ public class CompletedFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_completed, container, false);
-
+        /* View setup */
         mEmptyLabel = (TextView)v.findViewById(R.id.info_text);
 
         completed = new CompletedAdapter(getContext(), R.layout.completed_item, arrived);
@@ -89,6 +92,9 @@ public class CompletedFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Method to refresh the data inside the {@link ListView}
+     */
     public void refreshCompleted(){
         if (completed != null) {
             completed.notifyDataSetChanged();
@@ -101,6 +107,10 @@ public class CompletedFragment extends Fragment {
         }
     }
 
+    /**
+     * Method to shoe the {@link Bitmap} image of the completed {@link Item}
+     * @param position number of the item in the {@link ListView}
+     */
     public void createAlertDialog(int position){
         AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
 
@@ -124,6 +134,9 @@ public class CompletedFragment extends Fragment {
         mImageDialog.getWindow().setAttributes(mParams);
     }
 
+    /**
+     * Hides the shown image {@link Dialog}
+     */
     private void hidePhotoDialog(){
         if (mImageDialog != null){
             mImageDialog.dismiss();
@@ -134,6 +147,7 @@ public class CompletedFragment extends Fragment {
         this.position = position;
     }
 
+    /* Result Bitmap of the captured image */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

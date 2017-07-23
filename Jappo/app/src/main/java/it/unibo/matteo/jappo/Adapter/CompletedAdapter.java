@@ -45,12 +45,14 @@ public class CompletedAdapter extends ArrayAdapter<Item> {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.completed_item, null);
 
+        /* Components setup */
         final ImageView typeImage = (ImageView) v.findViewById(R.id.completed_image);
 
         final TextView itemName = (TextView) v.findViewById(R.id.highscore_name);
         final TextView itemNumber = (TextView) v.findViewById(R.id.completed_number);
         final TextView timeText = (TextView) v.findViewById(R.id.completed_time);
 
+        /* Current Item setup */
         Item currentItem = getItem(position);
 
         typeImage.setImageDrawable(ContextCompat.getDrawable(getContext(), currentItem.getType().getImage()));
@@ -58,6 +60,7 @@ public class CompletedAdapter extends ArrayAdapter<Item> {
         timeText.setText(currentItem.getTimeString());
         itemName.setText(currentItem.getName());
 
+        /* Camera button setup */
         ImageView cameraButton = (ImageView) v.findViewById(R.id.completed_camera_button);
         cameraButton.setTag(position);
         cameraButton.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +75,7 @@ public class CompletedAdapter extends ArrayAdapter<Item> {
         return v;
     }
 
+    /* Function that, if the permissions are granted, starts the cam */
     private void startCamera(int position){
         MainActivity currentActivity = (MainActivity) getContext();
         CompletedFragment fragment = (CompletedFragment) currentActivity.getViewerFragment(2);
@@ -83,6 +87,7 @@ public class CompletedAdapter extends ArrayAdapter<Item> {
             fragment.startActivityForResult(cameraIntent, 2);
         }
     }
+    /* Function that requests the camera permissions */
     private void requestCamera(){
         MainActivity currentActivity = (MainActivity) getContext();
         if (ContextCompat.checkSelfPermission(currentActivity,

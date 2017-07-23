@@ -20,7 +20,8 @@ import it.unibo.matteo.jappo.R;
 import static java.security.AccessController.getContext;
 
 /**
- * Activity that shows the scores of the user
+ * Activity that shows the scores of the user registered to the platform.
+ * Every user has a score based on the closed orders that has products.
  */
 public class HighscoresActivity extends AppCompatActivity {
 
@@ -47,16 +48,17 @@ public class HighscoresActivity extends AppCompatActivity {
             }
         });
 
-        final DataModel dm = new DataModel(getApplicationContext());
-
+        final DataModel dataModel = new DataModel(getApplicationContext());
+        /* Async task that loads the highscores to the ListView */
         AsyncTask<Void, Void, ArrayList<Score>> mHighscoresTask = new AsyncTask<Void, Void, ArrayList<Score>>() {
             @Override
             protected ArrayList<Score> doInBackground(Void... voids) {
-                return dm.getHighscores();
+                return dataModel.getHighscores();
             }
 
             @Override
             protected void onPostExecute(ArrayList<Score> resultHighscores) {
+                /* Adapter setup and highscores listView component creation */
                 highscores = resultHighscores;
                 mHighscoresList = (ListView)findViewById(R.id.highscores_list);
                 highscoresAdapter = new HighscoresAdapter(getApplicationContext(), R.layout.highscore_item, highscores);

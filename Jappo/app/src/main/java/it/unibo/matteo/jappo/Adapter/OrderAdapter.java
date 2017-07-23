@@ -35,33 +35,34 @@ public class OrderAdapter extends ArrayAdapter<Item> {
         convertView = inflater.inflate(R.layout.order_item, null);
         convertView.setTag(position);
 
-        final ImageView typeImage = (ImageView) convertView.findViewById(R.id.ordered_image);
-        final TextView itemName = (TextView) convertView.findViewById(R.id.ordered_name);
+        /* View setup */
+        final ImageView mTypeImage = (ImageView) convertView.findViewById(R.id.ordered_image);
+        final TextView mItemName = (TextView) convertView.findViewById(R.id.ordered_name);
 
-        final TextView itemNumber = (TextView) convertView.findViewById(R.id.ordered_number);
-        final TextView orderedTime = (TextView) convertView.findViewById(R.id.ordered_time);
+        final TextView mItemNumber = (TextView) convertView.findViewById(R.id.ordered_number);
+        final TextView mOrderedTime = (TextView) convertView.findViewById(R.id.ordered_time);
 
-        final ImageButton addFavorite = (ImageButton) convertView.findViewById(R.id.ordered_favorite);
+        final ImageButton mAddFavourites = (ImageButton) convertView.findViewById(R.id.ordered_favorite);
 
-        final MainActivity mainActivity = (MainActivity)getContext();
-        final FavoritesFragment favoritesFragment = (FavoritesFragment)mainActivity.getViewerFragment(0);
+        final MainActivity mMainActivity = (MainActivity)getContext();
+        final FavoritesFragment mFavouritesFragment = (FavoritesFragment)mMainActivity.getViewerFragment(0);
 
         final View finalConvertView = convertView;
         final Item currentItem = getItem(position);
-        addFavorite.setOnClickListener(new View.OnClickListener() {
+        mAddFavourites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final int position = (Integer) finalConvertView.getTag();
-                if (currentItem.isFavorite(favoritesFragment.getFavourites())){
-                    favoritesFragment.removeItemFromFavourites(currentItem);
+                if (currentItem.isFavorite(mFavouritesFragment.getFavourites())){
+                    mFavouritesFragment.removeItemFromFavourites(currentItem);
                     notifyDataSetChanged();
                 } else {
-                    favoritesFragment.addItemToFavourites(currentItem);
-                    Snackbar.make(view, "Aggiunto ai preferiti", Snackbar.LENGTH_LONG)
-                            .setAction("Visualizza", new View.OnClickListener() {
+                    mFavouritesFragment.addItemToFavourites(currentItem);
+                    Snackbar.make(view, R.string.added_favorites, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.show, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    mainActivity.setViewerPage(0);
+                                    mMainActivity.setViewerPage(0);
                                 }
                             })
                             .setActionTextColor(ContextCompat.getColor(getContext(), R.color.white))
@@ -70,16 +71,17 @@ public class OrderAdapter extends ArrayAdapter<Item> {
                 }
             }
         });
-        if (currentItem.isFavorite(favoritesFragment.getFavourites())){
-            addFavorite.setImageResource(R.mipmap.star_icon_fill);
+        /* Item star setup */
+        if (currentItem.isFavorite(mFavouritesFragment.getFavourites())){
+            mAddFavourites.setImageResource(R.mipmap.star_icon_fill);
         } else {
-            addFavorite.setImageResource(R.mipmap.star_icon_empty);
+            mAddFavourites.setImageResource(R.mipmap.star_icon_empty);
         }
-
-        typeImage.setImageDrawable(ContextCompat.getDrawable(getContext(), currentItem.getType().getImage()));
-        itemNumber.setText(String.valueOf(currentItem.getNumber()));
-        orderedTime.setText(currentItem.getTimeString());
-        itemName.setText(currentItem.getName());
+        /* Values setup */
+        mTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(), currentItem.getType().getImage()));
+        mItemNumber.setText(String.valueOf(currentItem.getNumber()));
+        mOrderedTime.setText(currentItem.getTimeString());
+        mItemName.setText(currentItem.getName());
 
         return convertView;
     }

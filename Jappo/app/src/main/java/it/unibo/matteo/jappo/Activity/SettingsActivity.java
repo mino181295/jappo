@@ -32,6 +32,9 @@ import it.unibo.matteo.jappo.R;
 import it.unibo.matteo.jappo.Utils.AlarmNotificationReceiver;
 import it.unibo.matteo.jappo.Utils.HTTPHelper;
 
+/**
+ * Activity that contain the profile image, the name and the Logout option.
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     CircleImageView circleImageView;
@@ -48,7 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
+        /* Components setup */
         dataModel = new DataModel(getApplicationContext());
         dataModel.load();
         loggedUser = dataModel.getLoggedUser();
@@ -58,11 +61,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         imageProgressBar = (ProgressBar)findViewById(R.id.settings_progress_bar);
         showProgress(true);
-
+        /* Action Bar setup */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_settings);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
 
         ImageButton backButton =  (ImageButton) toolbar.findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -88,8 +90,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        /* Task that shows a progress bar and loads the Profile picture */
         new AsyncTask<String, Void, Boolean>(){
-
             @Override
             protected Boolean doInBackground(String... strings) {
                 String response = HTTPHelper.downloadImageBase64(strings[0]);
@@ -100,7 +102,6 @@ public class SettingsActivity extends AppCompatActivity {
                     return false;
                 }
             }
-
             @Override
             protected void onPostExecute(Boolean result) {
                 if (result){
@@ -114,28 +115,29 @@ public class SettingsActivity extends AppCompatActivity {
         }.execute(dataModel.getLoggedUser().getProfileImage());
     }
 
+    /**
+     * Method that shows the logout {@link AlertDialog}
+     */
     public void showDialog(){
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(this);
-        builder.setTitle("Logout")
-                .setMessage("Sei sicuro di voler effettuare logout?")
-                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+        builder.setTitle(R.string.logout)
+                .setMessage(R.string.confirm_logout)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         performLogout();
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 })
                 .show();
     }
 
-    public void clearPreferences(){
-        DataModel dm = new DataModel(getApplicationContext());
-        dm.remove();
-    }
-
+    /**
+     * Logout routine that opens the {@link LoginActivity}
+     */
     public void performLogout(){
         clearPreferences();
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -145,6 +147,17 @@ public class SettingsActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Method that removes the {@link DataModel} from the {@link android.content.SharedPreferences}
+     */
+    public void clearPreferences(){
+        DataModel dataModel = new DataModel(getApplicationContext());
+        dataModel.remove();
+    }
+
+    /**
+     * Imagepicker for the Profile Image.
+     */
     public void pickImage() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -159,17 +172,15 @@ public class SettingsActivity extends AppCompatActivity {
                 return;
             }
             try {
-                //Gets the input stream of the picked image
                 InputStream inputStream = getBaseContext().getContentResolver().openInputStream(data.getData());
-                Bitmap bmp = BitmapFactory.decodeStream(inputStream);
-                //Compression part
-                bmp = compressImage(bmp);
-                bmp = scaleDown(bmp, 200, true);
-                //Encode to upload
-                String imageEncoded = encodeTobase64(bmp);
-                circleImageView.setImageBitmap(bmp);
+                Bitmap bitmapImage = BitmapFactory.decodeStream(inputStream);
+                /* Compression part */
+                bitmapImage = compressImage(bitmapImage);
+                bitmapImage = scaleDown(bitmapImage, 200, true);
+                /* Encode to upload */
+                String imageEncoded = encodeToBase64(bitmapImage);
+                circleImageView.setImageBitmap(bitmapImage);
                 showProgress(true);
-                //Upload
                 new AsyncTask<String, Void, Boolean>(){
                     @Override
                     protected Boolean doInBackground(String... strings) {
@@ -190,10 +201,15 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    public static String encodeTobase64(Bitmap image){
-        Bitmap immagex=image;
+    /**
+     * Bitmap encoding
+     * @param image
+     * @return
+     */
+    public static String encodeToBase64(Bitmap image){
+        Bitmap bitmapImage = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immagex.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] b = baos.toByteArray();
         String imageEncoded = Base64.encodeToString(b,Base64.DEFAULT);
 
@@ -204,12 +220,24 @@ public class SettingsActivity extends AppCompatActivity {
         return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 
+    /**
+     * Image compression to save space while uploading {@link Bitmap}
+     * @param original
+     * @return
+     */
     private Bitmap compressImage (Bitmap original){
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         original.compress(Bitmap.CompressFormat.JPEG, 50, out);
         return BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
     }
 
+    /**
+     * Method that scales a {@link Bitmap} picture
+     * @param realImage
+     * @param maxImageSize
+     * @param filter
+     * @return
+     */
     public static Bitmap scaleDown(Bitmap realImage, float maxImageSize,
                                    boolean filter) {
         float ratio = Math.min(
@@ -223,6 +251,10 @@ public class SettingsActivity extends AppCompatActivity {
         return newBitmap;
     }
 
+    /**
+     * Method that sets the {@link ProgressBar} Visibility
+     * @param isVisible
+     */
     private void showProgress(boolean isVisible){
         if (isVisible){
             imageProgressBar.setVisibility(View.VISIBLE);
@@ -231,6 +263,9 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method that stop the {@link android.app.Notification} from the {@link AlarmManager}
+     */
     private void stopAlarm(){
         AlarmManager manager = (AlarmManager)getSystemService(ALARM_SERVICE);
         Intent intent = new Intent(this , AlarmNotificationReceiver.class);
