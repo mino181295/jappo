@@ -7,11 +7,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import it.unibo.matteo.jappo.Fragment.LoginFragment;
@@ -20,9 +18,9 @@ import it.unibo.matteo.jappo.Fragment.RegisterFragment;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private LoginFragment loginFragment;
-    private RegisterFragment registerFragment;
-    private Fragment currentFragment;
+    private RegisterFragment mRegisterFragment;
+    private LoginFragment mLoginFragment;
+    private Fragment mCurrentFragment;
 
     public TextView mRegisterLabel;
     public Button mMainButton;
@@ -35,8 +33,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupView(){
-        hideActionBar();
         setupLoginFragment("");
+        hideActionBar();
         setupButtons();
     }
 
@@ -55,10 +53,10 @@ public class LoginActivity extends AppCompatActivity {
         mMainButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (currentFragment instanceof LoginFragment) {
-                    loginFragment.attemptLogin();
-                } else if (currentFragment instanceof  RegisterFragment){
-                    registerFragment.attemptRegistration();
+                if (mCurrentFragment instanceof LoginFragment) {
+                    mLoginFragment.attemptLogin();
+                } else if (mCurrentFragment instanceof  RegisterFragment){
+                    mRegisterFragment.attemptRegistration();
                 }
             }
         });
@@ -70,24 +68,24 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void setupLoginFragment(String mail){
-        currentFragment = loginFragment = LoginFragment.newInstance(mail);
+        mCurrentFragment = mLoginFragment = LoginFragment.newInstance(mail);
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.input_container, loginFragment).commit();
+        transaction.replace(R.id.input_container, mLoginFragment).commit();
     }
 
     public void setupRegisterFragment(){
-        currentFragment = registerFragment = RegisterFragment.newInstance();
+        mCurrentFragment = mRegisterFragment = RegisterFragment.newInstance();
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.input_container, registerFragment).commit();
+        transaction.replace(R.id.input_container, mRegisterFragment).commit();
     }
 
     @Override
     public void onBackPressed() {
-        if (currentFragment instanceof LoginFragment){
+        if (mCurrentFragment instanceof LoginFragment){
             super.onBackPressed();
-        } else if (currentFragment instanceof RegisterFragment){
+        } else if (mCurrentFragment instanceof RegisterFragment){
             setupLoginFragment("");
             mMainButton.setText(R.string.login);
             mRegisterLabel.setVisibility(View.VISIBLE);
@@ -113,5 +111,4 @@ public class LoginActivity extends AppCompatActivity {
             view.startAnimation(slideOut);
         }
     }
-
 }

@@ -33,13 +33,10 @@ import it.unibo.matteo.jappo.R;
 
 public class CompletedAdapter extends ArrayAdapter<Item> {
 
-    private List<Item> mDataSet;
-
     public static final int CAMERA_REQUEST = 12739;
 
     public CompletedAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Item> objects) {
         super(context, resource, objects);
-        mDataSet = objects;
     }
 
     @NonNull
@@ -63,12 +60,6 @@ public class CompletedAdapter extends ArrayAdapter<Item> {
 
         ImageView cameraButton = (ImageView) v.findViewById(R.id.completed_camera_button);
         cameraButton.setTag(position);
-        cameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), String.valueOf((Integer)view.getTag()), Toast.LENGTH_SHORT);
-            }
-        });
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

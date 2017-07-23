@@ -20,7 +20,7 @@ import it.unibo.matteo.jappo.R;
 import static java.security.AccessController.getContext;
 
 /**
- * Activity so show the scores of the user
+ * Activity that shows the scores of the user
  */
 public class HighscoresActivity extends AppCompatActivity {
 
@@ -64,7 +64,5 @@ public class HighscoresActivity extends AppCompatActivity {
             }
         };
         mHighscoresTask.execute((Void) null);
-
-
     }
 }

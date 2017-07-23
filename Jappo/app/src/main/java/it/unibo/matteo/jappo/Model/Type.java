@@ -8,6 +8,7 @@ import java.util.List;
 import it.unibo.matteo.jappo.R;
 
 public enum Type {
+
     @SerializedName("1") TEMPURA(1, "Tempura", R.drawable.type_1),
     @SerializedName("2") SASHIMI(2, "Sashimi", R.drawable.type_2),
     @SerializedName("3") TEMAKI(3, "Temaki", R.drawable.type_3),

@@ -24,11 +24,8 @@ import it.unibo.matteo.jappo.R;
 
 public class OrderAdapter extends ArrayAdapter<Item> {
 
-    private List<Item> mDataSet;
-
     public OrderAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Item> objects) {
         super(context, resource, objects);
-        mDataSet = objects;
     }
 
     @NonNull
@@ -73,7 +70,6 @@ public class OrderAdapter extends ArrayAdapter<Item> {
                 }
             }
         });
-        //If for the favorite star appearence
         if (currentItem.isFavorite(favoritesFragment.getFavourites())){
             addFavorite.setImageResource(R.mipmap.star_icon_fill);
         } else {

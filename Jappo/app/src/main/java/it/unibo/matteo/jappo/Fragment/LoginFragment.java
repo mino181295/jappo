@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +42,7 @@ public class LoginFragment extends Fragment {
     private TextView mMailText;
     private View mainView;
 
-    private View mProgressView;
+    private ProgressBar mProgressView;
 
     public LoginFragment(){}
 
@@ -63,9 +64,9 @@ public class LoginFragment extends Fragment {
 
         mPasswordText = (TextView) mainView.findViewById(R.id.login_password_text);
         mMailText = (TextView) mainView.findViewById(R.id.login_mail_text);
-        mProgressView = mainView.findViewById(R.id.login_progress);
-
         mMailText.setText(startingMail);
+
+        mProgressView = (ProgressBar) mainView.findViewById(R.id.login_progress);
 
         return mainView;
     }
@@ -88,25 +89,21 @@ public class LoginFragment extends Fragment {
         if (mAuthTask != null) {
             return;
         }
-        // Reset errors.
         mMailText.setError(null);
         mPasswordText.setError(null);
 
-        // Store values at the time of the login attempt.
         String email = mMailText.getText().toString();
         String password = mPasswordText.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordText.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordText;
             cancel = true;
         }
 
-        // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mMailText.setError(getString(R.string.error_field_required));
             focusView = mMailText;

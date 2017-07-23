@@ -36,7 +36,6 @@ public class SecurityHelper {
     public static byte[] encryptMsg(String message)
             throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException
     {
-   /* Encrypt the message. */
         try {
             generateKey();
         } catch (InvalidKeySpecException e) {e.printStackTrace();}
@@ -50,7 +49,6 @@ public class SecurityHelper {
     public static String decryptMsg(byte[] cipherText)
             throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidParameterSpecException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException
     {
-    /* Decrypt the message, given derived encContentValues and initialization vector. */
         try {
             generateKey();
         } catch (InvalidKeySpecException e) {e.printStackTrace();}

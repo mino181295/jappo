@@ -38,4 +38,15 @@
 
     <string name="no_item_arrived">Ancora nessun elemento arrivato.</string>
     <string name="no_item_ordered">Aggiungi un prodotto all\'ordine attuale.</string>
+
+    <string name="delete">Elimina</string>
+    <string name="confirm_delete">Sei sicuro di voler eliminare</string>
+    <string name="from_favourites">dai preferiti?</string>
+    <string name="yes">Sì</string>
+    <string name="no">No</string>
+
+    <string name="notification_title">Hai prodotti ordinati</string>
+    <string name="notification_subtitle">E\' arrivato qualche prodotto?</string>
+
+
 </resources>

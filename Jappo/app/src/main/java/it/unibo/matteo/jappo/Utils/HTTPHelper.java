@@ -1,8 +1,5 @@
 package it.unibo.matteo.jappo.Utils;
 
-import android.text.StaticLayout;
-import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
@@ -21,8 +18,8 @@ import javax.net.ssl.HttpsURLConnection;
 public class HTTPHelper {
 
     public static final String REST_BACKEND = "http://jappo.pe.hu/php/bridge.php";
-    public static final String REST_BACKEND_DOWNLOAD = "http://jappo.pe.hu/php/download_image.php";
     public static final String REST_BACKEND_UPLOAD = "http://jappo.pe.hu/php/upload_image.php";
+    public static final String REST_BACKEND_DOWNLOAD = "http://jappo.pe.hu/php/download_image.php";
 
     public static String connectPost(String urlToConnect, HashMap<String, String> params) {
         HttpURLConnection httpUrlConnection = null;
@@ -39,7 +36,6 @@ public class HTTPHelper {
 
             OutputStream output = httpUrlConnection.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output, "UTF-8"));
-            Log.d("Param", getPostDataString(params));
             writer.write(getPostDataString(params));
             writer.flush();
             writer.close();
@@ -101,5 +97,4 @@ public class HTTPHelper {
         String response = connectPost(REST_BACKEND_DOWNLOAD, params);
         return response;
     }
-
 }

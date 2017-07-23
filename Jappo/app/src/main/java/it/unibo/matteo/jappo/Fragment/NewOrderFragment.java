@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -18,7 +17,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -46,7 +44,7 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
 
     private OnNewOrderInteractionListener mListener;
 
-    private static ArrayList<Restaurant> restourants;
+    private static ArrayList<Restaurant> restaurants;
 
     public NewOrderFragment() {
     }
@@ -58,7 +56,7 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
 
     public static NewOrderFragment newInstance(ArrayList<Restaurant> rest) {
         NewOrderFragment fragment = new NewOrderFragment();
-        restourants = rest;
+        restaurants = rest;
         return fragment;
     }
 
@@ -69,7 +67,7 @@ public class NewOrderFragment extends Fragment implements OnMapReadyCallback {
         mSpinner = (Spinner) mView.findViewById(R.id.restaurant_spinner);
 
         ArrayAdapter<Restaurant> restaurantAdapter = new ArrayAdapter<>(getContext(), R.layout.resaturant_item,
-                R.id.restaurant_name_text, restourants);
+                R.id.restaurant_name_text, restaurants);
         restaurantAdapter.setDropDownViewResource(R.layout.resaturant_item);
         mSpinner.setAdapter(restaurantAdapter);
         mSpinner.setSelection(0);

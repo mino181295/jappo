@@ -80,12 +80,10 @@ public class RegisterFragment extends Fragment {
         if (mRegisterTask != null) {
             return;
         }
-        // Reset errors.
         mMailText.setError(null);
         mPasswordText.setError(null);
         mNameText.setError(null);
 
-        // Store values at the time of the login attempt.
         String email = mMailText.getText().toString();
         String password = mPasswordText.getText().toString();
         String name = mNameText.getText().toString();
@@ -93,7 +91,6 @@ public class RegisterFragment extends Fragment {
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordText.setError(getString(R.string.password_info));
             focusView = mPasswordText;
@@ -106,7 +103,6 @@ public class RegisterFragment extends Fragment {
             cancel = true;
         }
 
-        // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mMailText.setError(getString(R.string.error_field_required));
             focusView = mMailText;

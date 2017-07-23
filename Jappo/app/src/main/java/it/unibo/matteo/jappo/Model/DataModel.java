@@ -6,31 +6,30 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import it.unibo.matteo.jappo.Utils.HTTPHelper;
 import it.unibo.matteo.jappo.Utils.JSONHelper;
 import it.unibo.matteo.jappo.Utils.RequestType;
 import it.unibo.matteo.jappo.Utils.SharedPreferencesManager;
 
-import static android.R.attr.value;
 import static it.unibo.matteo.jappo.Utils.HTTPHelper.connectPost;
 
 public class DataModel {
 
     private static final String SP_NAME = "Default";
+
     private static SharedPreferencesManager spManager;
 
     private User user;
-    private Order currentOrder;
-    private ArrayList<Restaurant> availableRestaurants;
+    private Order order;
+    private ArrayList<Restaurant> restaurants;
 
     public DataModel(Context context){
         spManager = new SharedPreferencesManager(SP_NAME, context);
 
         user = null;
-        currentOrder = null;
-        availableRestaurants = null;
+        order = null;
+        restaurants = null;
     }
 
     public void load(){
@@ -39,8 +38,8 @@ public class DataModel {
             if (spManager.hasDataModel()) {
                 DataModel dm = spManager.loadDataModel();
                 user = dm.user;
-                currentOrder = dm.currentOrder;
-                availableRestaurants = dm.availableRestaurants;
+                order = dm.order;
+                restaurants = dm.restaurants;
             } else {
                 loadData(user);
             }
@@ -81,7 +80,7 @@ public class DataModel {
         loadParams.put(RequestType.getDefault(), RequestType.GET_REST.getValue());
 
         String response = connectPost(HTTPHelper.REST_BACKEND, loadParams);
-        availableRestaurants = JSONHelper.parseRestaurants(response);
+        restaurants = JSONHelper.parseRestaurants(response);
     }
 
     public void uploadFavorites(){
@@ -90,7 +89,7 @@ public class DataModel {
         loadParams.put("fav", new Gson().toJson(user.getFavorites()));
         loadParams.put("user", String.valueOf(user.getId()));
 
-        String response = connectPost(HTTPHelper.REST_BACKEND, loadParams);
+        connectPost(HTTPHelper.REST_BACKEND, loadParams);
     }
 
     public boolean isLoggedIn(){
@@ -102,7 +101,7 @@ public class DataModel {
     }
 
     public boolean hasOpenOrder(){
-        if (currentOrder != null) {
+        if (order != null) {
             return true;
         } else {
             return false;
@@ -111,22 +110,22 @@ public class DataModel {
 
     public Order getOrder(){
         if (hasOpenOrder()){
-            return this.currentOrder;
+            return this.order;
         } else {
             return null;
         }
     }
 
     public void createOrder(Restaurant r){
-        this.currentOrder = new Order(r);
+        this.order = new Order(r);
     }
 
     public void closeOrder(){
-        this.currentOrder = null;
+        this.order = null;
     }
 
     public ArrayList<Restaurant> getRestaurants(){
-        return this.availableRestaurants;
+        return this.restaurants;
     }
 
     public ArrayList<Score> getHighscores(){
@@ -144,7 +143,7 @@ public class DataModel {
         params.put("number", String.valueOf(value));
         params.put("id", String.valueOf(user.getId()));
 
-        String response = HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, params);
+        connectPost(HTTPHelper.REST_BACKEND, params);
     }
 
     public static DataModel fromJson(String in){
@@ -154,5 +153,4 @@ public class DataModel {
     public String getJson(){
         return new Gson().toJson(this);
     }
-
 }

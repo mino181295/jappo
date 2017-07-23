@@ -25,9 +25,10 @@ import it.unibo.matteo.jappo.R;
 
 public class FavoritesAdapter extends ArrayAdapter<Item> {
 
-    private List<Item> mDataSet;
     private MainActivity mainActivity;
-    private Fragment currentFragment;
+    private Fragment mCurrentFragment;
+
+    private List<Item> mDataSet;
 
     public FavoritesAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Item> objects) {
         super(context, resource, objects);
@@ -42,49 +43,48 @@ public class FavoritesAdapter extends ArrayAdapter<Item> {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.favorite_item, null);
 
-        final ImageView typeImage = (ImageView) v.findViewById(R.id.item_image);
-        final TextView itemName = (TextView) v.findViewById(R.id.item_name);
-        final TextView itemNumber = (TextView) v.findViewById(R.id.item_number);
-        final TextView typeName = (TextView) v.findViewById(R.id.item_type);
+        final ImageView mTypeImage = (ImageView) v.findViewById(R.id.item_image);
+        final TextView mItemNumber = (TextView) v.findViewById(R.id.item_number);
+        final TextView mItemName = (TextView) v.findViewById(R.id.item_name);
+        final TextView mTypeName = (TextView) v.findViewById(R.id.item_type);
 
         if (position % 2 != 0) {
             v.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.background_color));
         }
 
-        final Item i = getItem(position);
+        final Item item = getItem(position);
 
-        typeImage.setImageDrawable(ContextCompat.getDrawable(getContext(), i.getType().getImage()));
+        mTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(), item.getType().getImage()));
         ImageButton deleteItem = (ImageButton) v.findViewById(R.id.item_delete);
-        itemNumber.setText(String.valueOf(i.getNumber()));
+        mItemNumber.setText(String.valueOf(item.getNumber()));
 
-        if (i.getRestaurant() != null){
-            typeName.setText(i.getRestaurant().toString());
+        if (item.getRestaurant() != null){
+            mTypeName.setText(item.getRestaurant().toString());
         } else {
-            typeName.setText(i.getType().getName());
+            mTypeName.setText(item.getType().getName());
         }
-        itemName.setText(i.getName());
+        mItemName.setText(item.getName());
         deleteItem.setTag(position);
 
-        currentFragment = mainActivity.getViewerFragment(1);
-        final OrderFragment of = (currentFragment instanceof OrderFragment) ? (OrderFragment)currentFragment : null;
+        mCurrentFragment = mainActivity.getViewerFragment(1);
+        final OrderFragment of = (mCurrentFragment instanceof OrderFragment) ? (OrderFragment) mCurrentFragment : null;
 
         deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final int index = (Integer) view.getTag();
+                final int current = (Integer) view.getTag();
                 AlertDialog.Builder builder;
                 builder = new AlertDialog.Builder(view.getContext());
-                builder.setTitle("Elimina")
-                        .setMessage("Sei sicuro di voler eliminare " + getItem(index).getName() + " dai preferiti?")
-                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                builder.setTitle(R.string.delete)
+                        .setMessage(R.string.confirm_delete + getItem(current).getName() + R.string.from_favourites)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                mDataSet.remove(index);
+                                mDataSet.remove(current);
                                 notifyDataSetChanged();
-                                //Changes the order fragment view
                                 if (of != null) of.refreshOrder();
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {}
                         })
                         .show();

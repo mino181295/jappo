@@ -22,15 +22,17 @@ import it.unibo.matteo.jappo.R;
 public class HighscoresAdapter extends ArrayAdapter<Score> {
 
     List<Score> mDataSet;
-    DataModel dm;
+    DataModel dataModel;
     User loggedUser;
 
     public HighscoresAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Score> objects) {
         super(context, resource, objects);
         mDataSet = objects;
-        dm = new DataModel(getContext());
-        dm.load();
-        loggedUser = dm.getLoggedUser();
+
+        dataModel = new DataModel(getContext());
+        dataModel.load();
+
+        loggedUser = dataModel.getLoggedUser();
     }
 
     @NonNull
@@ -39,29 +41,29 @@ public class HighscoresAdapter extends ArrayAdapter<Score> {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.highscore_item, null);
 
-        final TextView nameText = (TextView)v.findViewById(R.id.highscore_name);
-        final TextView positionText = (TextView)v.findViewById(R.id.highscores_position);
-        final TextView timeText = (TextView)v.findViewById(R.id.highscores_time);
-        final TextView valueText = (TextView)v.findViewById(R.id.highscore_value);
+        final TextView mPositionText = (TextView)v.findViewById(R.id.highscores_position);
+        final TextView mValueText = (TextView)v.findViewById(R.id.highscore_value);
+        final TextView mNameText = (TextView)v.findViewById(R.id.highscore_name);
+        final TextView mTimeText = (TextView)v.findViewById(R.id.highscores_time);
 
-        Score s = getItem(position);
+        Score score = getItem(position);
 
-        if (s.getName().equals(loggedUser.getName())) {
+        if (score.getName().equals(loggedUser.getName())) {
             v.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.background_color));
         }
 
-        nameText.setText(s.getName());
-        positionText.setText(String.valueOf(position+1));
+        mNameText.setText(score.getName());
+        mPositionText.setText(String.valueOf(position+1));
         switch (position){
-            case 0: positionText.setTextColor(ContextCompat.getColor(getContext(), R.color.fab_material_amber_500));
+            case 0: mPositionText.setTextColor(ContextCompat.getColor(getContext(), R.color.fab_material_amber_500));
                 break;
-            case 1: positionText.setTextColor(Color.LTGRAY);
+            case 1: mPositionText.setTextColor(Color.LTGRAY);
                 break;
-            case 2: positionText.setTextColor(ContextCompat.getColor(getContext(), R.color.background_color));
+            case 2: mPositionText.setTextColor(ContextCompat.getColor(getContext(), R.color.background_color));
                 break;
         }
-        timeText.setText(s.getDate());
-        valueText.setText(String.valueOf(s.getValue()));
+        mTimeText.setText(score.getDate());
+        mValueText.setText(String.valueOf(score.getValue()));
 
         return v;
     }

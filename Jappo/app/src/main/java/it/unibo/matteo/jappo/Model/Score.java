@@ -9,8 +9,8 @@ import java.util.TimeZone;
 public class Score {
 
     private String name;
-    private int value;
     private Date date;
+    private int value;
 
     private DateFormat dateFormat;
 

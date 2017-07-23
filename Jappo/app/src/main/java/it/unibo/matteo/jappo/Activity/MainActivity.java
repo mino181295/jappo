@@ -22,22 +22,23 @@ import it.unibo.matteo.jappo.Fragment.OrderFragment;
 import it.unibo.matteo.jappo.Model.DataModel;
 import it.unibo.matteo.jappo.Model.Restaurant;
 import it.unibo.matteo.jappo.R;
+import it.unibo.matteo.jappo.Utils.MediaHelper;
 
 public class MainActivity extends AppCompatActivity implements NewOrderFragment.OnNewOrderInteractionListener,
         OrderFragment.OnOrderInteractionListener{
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    private DataModel dm;
-
     private ViewPager mViewPager;
+
+    private DataModel dataModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dm = new DataModel(getApplicationContext());
-        dm.load();
+        dataModel = new DataModel(getApplicationContext());
+        dataModel.load();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -59,11 +60,8 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
             }
         });
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -78,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
         new AsyncTask<Object, Object, Void>() {
             @Override
             protected Void doInBackground(Object... voids) {
-                dm.uploadFavorites();
+                dataModel.uploadFavorites();
                 return null;
             }
         }.execute();
@@ -88,48 +86,37 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
     @Override
     protected void onResume() {
         super.onResume();
-        dm.load();
-        if (dm.hasOpenOrder()){
-            Fragment orderFragment = OrderFragment.newInstance(dm.getOrder());
+        dataModel.load();
+        if (dataModel.hasOpenOrder()){
+            Fragment orderFragment = OrderFragment.newInstance(dataModel.getOrder());
             mSectionsPagerAdapter.replaceFragment(1,orderFragment);
 
-            Fragment completedFragment = CompletedFragment.newInstance(dm.getOrder());
+            Fragment completedFragment = CompletedFragment.newInstance(dataModel.getOrder());
             mSectionsPagerAdapter.replaceFragment(2, completedFragment);
         }
     }
 
     @Override
     protected void onPause() {
-        dm.save();
+        dataModel.save();
         super.onPause();
     }
 
     @Override
-    public void onNewOrderInteraction(Restaurant r) {
-        dm.createOrder(r);
-
-        Fragment orderFragment = OrderFragment.newInstance(dm.getOrder());
-        mSectionsPagerAdapter.replaceFragment(1,orderFragment);
-
-        Fragment completedFragment = CompletedFragment.newInstance(dm.getOrder());
-        mSectionsPagerAdapter.replaceFragment(2, completedFragment);
-    }
-
-    @Override
     public void onOrderInteraction() {
-        final int scorePoints = dm.getOrder().getArrivedItems().size();
+        final int scorePoints = dataModel.getOrder().getArrived().size();
         new AsyncTask<Integer, Void, Void>(){
             @Override
             protected Void doInBackground(Integer... ints) {
-                dm.updateUserHighScore(ints[0]);
+                dataModel.updateUserHighScore(ints[0]);
                 return null;
             }
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                dm.closeOrder();
+                dataModel.closeOrder();
 
-                Fragment newOrdFragment = NewOrderFragment.newInstance(dm.getRestaurants());
+                Fragment newOrdFragment = NewOrderFragment.newInstance(dataModel.getRestaurants());
                 mSectionsPagerAdapter.replaceFragment(1, newOrdFragment);
 
                 CompletedFragment completedFragment = CompletedFragment.newInstance();
@@ -138,12 +125,24 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
         }.execute(scorePoints);
     }
 
-    public void setViewerPage(int i){
-        mViewPager.setCurrentItem(i);
+    @Override
+    public void onNewOrderInteraction(Restaurant r) {
+        MediaHelper.createFolder(getApplicationContext());
+        dataModel.createOrder(r);
+
+        Fragment orderFragment = OrderFragment.newInstance(dataModel.getOrder());
+        mSectionsPagerAdapter.replaceFragment(1,orderFragment);
+
+        Fragment completedFragment = CompletedFragment.newInstance(dataModel.getOrder());
+        mSectionsPagerAdapter.replaceFragment(2, completedFragment);
     }
 
     public Fragment getViewerFragment(int i){
         return  mSectionsPagerAdapter.getItem(i);
+    }
+
+    public void setViewerPage(int i){
+        mViewPager.setCurrentItem(i);
     }
 
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
@@ -156,16 +155,16 @@ public class MainActivity extends AppCompatActivity implements NewOrderFragment.
 
             mainViewFragments = new Fragment[3];
 
-            mainViewFragments[0] = FavoritesFragment.newInstance(dm.getLoggedUser().getFavorites());
+            mainViewFragments[0] = FavoritesFragment.newInstance(dataModel.getLoggedUser().getFavorites());
 
-            if (dm.hasOpenOrder()){
-                mainViewFragments[1] = OrderFragment.newInstance(dm.getOrder());
+            if (dataModel.hasOpenOrder()){
+                mainViewFragments[1] = OrderFragment.newInstance(dataModel.getOrder());
             } else {
-                mainViewFragments[1] = NewOrderFragment.newInstance(dm.getRestaurants());
+                mainViewFragments[1] = NewOrderFragment.newInstance(dataModel.getRestaurants());
             }
 
-            if (dm.hasOpenOrder()){
-                mainViewFragments[2] = CompletedFragment.newInstance(dm.getOrder());
+            if (dataModel.hasOpenOrder()){
+                mainViewFragments[2] = CompletedFragment.newInstance(dataModel.getOrder());
             } else {
                 mainViewFragments[2] = CompletedFragment.newInstance();
             }

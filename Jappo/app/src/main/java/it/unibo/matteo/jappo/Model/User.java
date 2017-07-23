@@ -1,7 +1,6 @@
 package it.unibo.matteo.jappo.Model;
 
 import com.google.gson.Gson;
-
 import java.util.ArrayList;
 
 
@@ -27,7 +26,6 @@ public class User {
         return new Gson().fromJson(in, User.class);
     }
 
-
     public int getId() {
         return id;
     }
@@ -51,6 +49,4 @@ public class User {
     public String getProfileImage(){
         return "profile_" + getId() + ".jpg";
     }
-
-
 }

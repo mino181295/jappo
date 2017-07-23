@@ -2,37 +2,28 @@ package it.unibo.matteo.jappo.Activity;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.support.transition.Visibility;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.unibo.matteo.jappo.Model.DataModel;
@@ -40,20 +31,16 @@ import it.unibo.matteo.jappo.Model.User;
 import it.unibo.matteo.jappo.R;
 import it.unibo.matteo.jappo.Utils.AlarmNotificationReceiver;
 import it.unibo.matteo.jappo.Utils.HTTPHelper;
-import it.unibo.matteo.jappo.Utils.SharedPreferencesManager;
-
-import static it.unibo.matteo.jappo.Utils.HTTPHelper.downloadImageBase64;
-import static java.lang.System.in;
-import static java.security.AccessController.getContext;
 
 public class SettingsActivity extends AppCompatActivity {
 
     CircleImageView circleImageView;
-    Bitmap currentImageBitmap;
     ProgressBar imageProgressBar;
+    Bitmap currentImageBitmap;
+
     TextView mNameTextView;
+    DataModel dataModel;
     User loggedUser;
-    DataModel dm;
 
     public static final int PICK_PHOTO_FOR_AVATAR = 999;
 
@@ -62,9 +49,9 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        dm = new DataModel(getApplicationContext());
-        dm.load();
-        loggedUser = dm.getLoggedUser();
+        dataModel = new DataModel(getApplicationContext());
+        dataModel.load();
+        loggedUser = dataModel.getLoggedUser();
 
         mNameTextView = (TextView)findViewById(R.id.settings_name);
         mNameTextView.setText(loggedUser.getName());
@@ -124,7 +111,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
                 showProgress(false);
             }
-        }.execute(dm.getLoggedUser().getProfileImage());
+        }.execute(dataModel.getLoggedUser().getProfileImage());
     }
 
     public void showDialog(){
@@ -195,7 +182,7 @@ public class SettingsActivity extends AppCompatActivity {
                     protected void onPostExecute(Boolean aBoolean) {
                         showProgress(false);
                     }
-                }.execute(dm.getLoggedUser().getProfileImage(),
+                }.execute(dataModel.getLoggedUser().getProfileImage(),
                         imageEncoded);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

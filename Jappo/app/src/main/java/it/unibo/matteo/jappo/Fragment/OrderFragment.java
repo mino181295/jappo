@@ -7,13 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,16 +31,15 @@ import java.util.Random;
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.unibo.matteo.jappo.Activity.MainActivity;
 import it.unibo.matteo.jappo.Adapter.OrderAdapter;
-import it.unibo.matteo.jappo.Model.DataModel;
 import it.unibo.matteo.jappo.Model.Item;
 import it.unibo.matteo.jappo.Model.Order;
 import it.unibo.matteo.jappo.Model.Type;
 import it.unibo.matteo.jappo.R;
 import it.unibo.matteo.jappo.Utils.AlarmNotificationReceiver;
+import it.unibo.matteo.jappo.Utils.MediaHelper;
 import it.unibo.matteo.jappo.Utils.VibratorManager;
 
 import static android.content.Context.ALARM_SERVICE;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 public class OrderFragment extends Fragment {
 
@@ -65,7 +62,7 @@ public class OrderFragment extends Fragment {
     public static OrderFragment newInstance(Order o) {
         OrderFragment fragment = new OrderFragment();
         order = o;
-        orderedItems = o.getOrderedItems();
+        orderedItems = o.getOrdered();
         return fragment;
     }
 
@@ -155,7 +152,7 @@ public class OrderFragment extends Fragment {
         });
 
         TextView title = (TextView) mView.findViewById(R.id.title_order);
-        title.setText("Ordine al ristorante " + order.getRestourant() );
+        title.setText("Ordine al ristorante " + order.getRestaurant() );
 
         refreshOrder();
 
@@ -281,7 +278,7 @@ public class OrderFragment extends Fragment {
                     String name = mNameView.getText().toString();
                     int number = Integer.parseInt(mNumber.getText().toString());
                     Type selectedItem = (Type) mSpinner.getSelectedItem();
-                    Item newItem = new Item(name, number, selectedItem, order.getRestourant());
+                    Item newItem = new Item(name, number, selectedItem, order.getRestaurant());
                     newItem.setTime(Item.getCurrentTime());
 
                     orderedItems.add(newItem);
@@ -369,7 +366,7 @@ public class OrderFragment extends Fragment {
                     String name = mNameView.getText().toString();
                     int number = Integer.parseInt(mNumber.getText().toString());
                     Type selectedItem = (Type) mSpinner.getSelectedItem();
-                    Item editItem = new Item(name, number, selectedItem, order.getRestourant());
+                    Item editItem = new Item(name, number, selectedItem, order.getRestaurant());
                     editItem.setTime(new Date());
 
                     orderedItems.set(position, editItem);
@@ -445,7 +442,7 @@ public class OrderFragment extends Fragment {
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Chiudi ordine")
-                .setMessage("Vuoi veramente chiudere l'ordine di "+ order.getRestourant().getName() + "?")
+                .setMessage("Vuoi veramente chiudere l'ordine di "+ order.getRestaurant().getName() + "?")
                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         onCloseOrder();
@@ -472,6 +469,7 @@ public class OrderFragment extends Fragment {
 
     public void onCloseOrder() {
         if (mListener != null) {
+            MediaHelper.deleteFolder(getContext());
             hasToNotificate = false;
             mListener.onOrderInteraction();
         }
