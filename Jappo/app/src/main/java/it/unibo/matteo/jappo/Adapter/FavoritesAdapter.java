@@ -77,7 +77,8 @@ public class FavoritesAdapter extends ArrayAdapter<Item> {
                 AlertDialog.Builder builder;
                 builder = new AlertDialog.Builder(view.getContext());
                 builder.setTitle(R.string.delete)
-                        .setMessage(R.string.confirm_delete + getItem(current).getName() + R.string.from_favourites)
+                        .setMessage(getContext().getString(R.string.confirm_delete) +
+                                getItem(current).getName() + getContext().getString(R.string.from_favourites))
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 mDataSet.remove(current);

@@ -428,7 +428,9 @@ public class OrderFragment extends Fragment {
                     case 0:
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setTitle(R.string.delete)
-                                .setMessage(R.string.delete_question + orderedItems.get(i).getName() + R.string.from_current_order)
+                                .setMessage(getString(R.string.delete_question) + " " +
+                                        orderedItems.get(i).getName() + " "
+                                        + getString(R.string.from_current_order))
                                 .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         orderedItems.remove(index);
@@ -478,7 +480,8 @@ public class OrderFragment extends Fragment {
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.close_order)
-                .setMessage(R.string.close_question + order.getRestaurant().getName() + "?")
+                .setMessage(getString(R.string.close_question) +
+                        " " + order.getRestaurant().getName() + "?")
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         onCloseOrder();
