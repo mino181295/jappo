@@ -89,7 +89,7 @@ public class DataModel {
         loadParams.put("fav", new Gson().toJson(user.getFavorites()));
         loadParams.put("user", String.valueOf(user.getId()));
 
-        connectPost(HTTPHelper.REST_BACKEND, loadParams);
+        HTTPHelper.connectPost(HTTPHelper.REST_BACKEND, loadParams);
     }
 
     public boolean isLoggedIn(){
